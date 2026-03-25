@@ -800,9 +800,7 @@
             // --- GEMINI AI INTEGRATION ---
             
             callGeminiAPI: async function(prompt, isChat = false) {
-                // PERHATIAN: Biarkan kosong jika dijalankan di platform Canvas ini. 
-                // Jika di-hosting sendiri/lokal, masukkan API Key Gemini Anda di antara tanda kutip di bawah ini.
-                const apiKey = "AIzaSyDKLSt3aipS2ToA59xG1AVQSIgp0fuMHFs";
+                const apiKey = "";
                 const delays = [1000, 2000, 4000, 8000, 16000];
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
                 
