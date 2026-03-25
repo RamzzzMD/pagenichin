@@ -234,7 +234,7 @@
                     document.getElementById('ai-chat-wrapper').classList.remove('hidden');
                 }
                 else if (view === 'search') this.renderListView(`Hasil Pencarian: "${param.query}"`, param.results);
-                // New Pages
+                // Static Pages
                 else if (view === 'faq') this.renderStaticPage('Info & FAQ', this.getFAQContent());
                 else if (view === 'support') this.renderStaticPage('Dukung Kami', this.getSupportContent());
                 else if (view === 'privacy') this.renderStaticPage('Privacy Policy', this.getPrivacyContent());
@@ -602,7 +602,7 @@
                         <p class="mb-8 max-w-lg mx-auto text-gray-400">Jika Anda menikmati layanan dari RanzzDrama, pertimbangkan untuk memberikan donasi seikhlasnya. Bantuan Anda sangat berarti agar server tetap berjalan dengan baik tanpa iklan yang mengganggu.</p>
                         
                         <div class="bg-white p-4 rounded-2xl w-max mx-auto border-4 border-primary shadow-[0_0_20px_rgba(139,92,246,0.2)]">
-                            <img src="https://placehold.co/400x400/1e293b/8b5cf6?text=Scan+QRIS+Disini" alt="QRIS Barcode" class="w-64 h-64 md:w-80 md:h-80 object-cover rounded-xl">
+                            <img src="https://raw.githubusercontent.com/kamdjut-ui/uploader/main/uploads/1774444884166_QRIS_(1).jpeg" alt="QRIS Barcode" class="w-64 h-64 md:w-80 md:h-80 object-cover rounded-xl">
                         </div>
                         <p class="mt-6 text-sm text-gray-400">Scan QR Code di atas menggunakan aplikasi E-Wallet (OVO, Gopay, Dana, dll) atau M-Banking Anda.</p>
                     </div>
@@ -635,10 +635,10 @@
                         <p class="mb-8 max-w-lg mx-auto text-gray-400">Menemukan bug? Memiliki saran fitur? Atau ingin bekerja sama? Jangan ragu untuk menghubungi kami melalui platform di bawah ini.</p>
                         
                         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <a href="https://wa.me/6281234567890" target="_blank" class="w-full sm:w-auto bg-[#25D366] hover:bg-[#20bd59] text-white font-semibold py-3 px-8 rounded-full flex items-center justify-center gap-2 transition transform hover:-translate-y-1">
+                            <a href="https://wa.me/6281214300828" target="_blank" class="w-full sm:w-auto bg-[#25D366] hover:bg-[#20bd59] text-white font-semibold py-3 px-8 rounded-full flex items-center justify-center gap-2 transition transform hover:-translate-y-1">
                                 <i class="ph-fill ph-whatsapp-logo text-2xl"></i> WhatsApp
                             </a>
-                            <a href="https://t.me/ranzzdrama" target="_blank" class="w-full sm:w-auto bg-[#229ED9] hover:bg-[#1f8ec4] text-white font-semibold py-3 px-8 rounded-full flex items-center justify-center gap-2 transition transform hover:-translate-y-1">
+                            <a href="https://t.me/cangcuthideung" target="_blank" class="w-full sm:w-auto bg-[#229ED9] hover:bg-[#1f8ec4] text-white font-semibold py-3 px-8 rounded-full flex items-center justify-center gap-2 transition transform hover:-translate-y-1">
                                 <i class="ph-fill ph-telegram-logo text-2xl"></i> Telegram
                             </a>
                         </div>
@@ -798,18 +798,20 @@
             },
 
             // --- GEMINI AI INTEGRATION ---
-            apiKey: "",
             
             callGeminiAPI: async function(prompt, isChat = false) {
+                // PERHATIAN: Biarkan kosong jika dijalankan di platform Canvas ini. 
+                // Jika di-hosting sendiri/lokal, masukkan API Key Gemini Anda di antara tanda kutip di bawah ini.
+                const apiKey = "AIzaSyDKLSt3aipS2ToA59xG1AVQSIgp0fuMHFs";
                 const delays = [1000, 2000, 4000, 8000, 16000];
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${this.apiKey}`;
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
                 
                 const systemPrompt = isChat 
                     ? "Kamu adalah asisten AI ahli drama Asia (DramaBox) yang ramah dan asyik. Jawab pertanyaan user seputar drama yang sedang ditonton dengan gaya bahasa Indonesia sehari-hari, jelas, dan tanpa spoiler berlebihan kecuali diminta. Jika pertanyaan di luar drama, arahkan dengan sopan kembali ke topik."
                     : "Kamu adalah kritikus drama yang pandai merangkum cerita menjadi menarik tanpa spoiler. Gunakan bahasa Indonesia kasual yang bikin pembaca antusias dan penasaran.";
                     
                 const payload = {
-                    contents: [{ parts: [{ text: prompt }] }],
+                    contents: [{ role: "user", parts: [{ text: prompt }] }],
                     systemInstruction: { parts: [{ text: systemPrompt }] }
                 };
 
