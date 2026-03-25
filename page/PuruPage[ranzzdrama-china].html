@@ -1,455 +1,326 @@
-<!-- META {"title":"RanzzDrama China","desc":"Nonton Dracin Dari DramaBox dilengkapi dengan AI ","date":"2026-03-23T02:25:09.121Z"} -->
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id" class="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RanzzDrama - Nonton Drama Kapan Saja</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              primary: "#8b5cf6", // Purple-500
-              secondary: "#ec4899", // Pink-500
-              dark: "#0f172a", // Slate-900
-              darker: "#020617", // Slate-950
-              panel: "#1e293b", // Slate-800
-            },
-            fontFamily: {
-              sans: [
-                "Inter",
-                "ui-sans-serif",
-                "system-ui",
-                "-apple-system",
-                "BlinkMacSystemFont",
-                "Segoe UI",
-                "Roboto",
-                "Helvetica Neue",
-                "Arial",
-                "sans-serif",
-              ],
-            },
-            aspectRatio: {
-              portrait: "2/3",
-            },
-          },
-        },
-      };
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8b5cf6', // Purple-500
+                        secondary: '#ec4899', // Pink-500
+                        dark: '#0f172a', // Slate-900
+                        darker: '#020617', // Slate-950
+                        panel: '#1e293b', // Slate-800
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                    },
+                    aspectRatio: {
+                        'portrait': '2/3',
+                    }
+                }
+            }
+        }
     </script>
     <style>
-      /* Custom Scrollbar for horizontal scrolling */
-      .hide-scroll::-webkit-scrollbar {
-        display: none;
-      }
-      .hide-scroll {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
+        /* Custom Scrollbar for horizontal scrolling */
+        .hide-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scroll {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Video Player Styling */
+        video {
+            width: 100%;
+            max-height: 75vh;
+            background-color: #000;
+        }
+        
+        /* Truncate multi-line */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;  
+            overflow: hidden;
+        }
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;  
+            overflow: hidden;
+        }
 
-      /* Video Player Styling */
-      video {
-        width: 100%;
-        max-height: 75vh;
-        background-color: #000;
-      }
-
-      /* Truncate multi-line */
-      .line-clamp-2 {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-      .line-clamp-3 {
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-
-      /* AI Chat Custom Scrollbar */
-      .chat-scroll::-webkit-scrollbar {
-        width: 4px;
-      }
-      .chat-scroll::-webkit-scrollbar-thumb {
-        background: #8b5cf6;
-        border-radius: 4px;
-      }
+        /* AI Chat Custom Scrollbar */
+        .chat-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .chat-scroll::-webkit-scrollbar-thumb {
+            background: #8b5cf6;
+            border-radius: 4px;
+        }
     </style>
-  </head>
-  <body
-    class="bg-darker text-gray-200 font-sans antialiased selection:bg-primary selection:text-white pb-20 md:pb-0 relative min-h-screen flex flex-col"
-  >
+</head>
+<body class="bg-darker text-gray-200 font-sans antialiased selection:bg-primary selection:text-white pb-20 md:pb-0 relative min-h-screen flex flex-col">
+
     <!-- Navbar Desktop & Top Mobile -->
-    <nav
-      class="sticky top-0 z-50 bg-darker/70 backdrop-blur-xl border-b border-white/5 transition-all"
-    >
-      <div
-        class="container mx-auto px-5 lg:px-10 py-3 md:py-4 flex items-center justify-between"
-      >
-        <!-- Logo -->
-        <div
-          class="flex items-center gap-2 cursor-pointer"
-          onclick="app.navigate('home')"
-        >
-          <i
-            class="ph-fill ph-monitor-play text-2xl md:text-3xl text-primary"
-          ></i>
-          <span
-            class="text-lg md:text-xl font-bold tracking-tight text-white hidden sm:block"
-          >
-            RanzzDrama
-          </span>
-        </div>
-
-        <!-- Search Bar -->
-        <div class="flex-1 max-w-lg px-4 hidden md:block ml-auto">
-          <form
-            id="search-form"
-            class="relative"
-            onsubmit="app.handleSearch(event)"
-          >
-            <div
-              class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"
-            >
-              <i class="ph ph-magnifying-glass text-gray-400"></i>
+    <nav class="sticky top-0 z-50 bg-darker/70 backdrop-blur-xl border-b border-white/5 transition-all">
+        <div class="container mx-auto px-5 lg:px-10 py-3 md:py-4 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center gap-2 cursor-pointer" onclick="app.navigate('home')">
+                <i class="ph-fill ph-monitor-play text-2xl md:text-3xl text-primary"></i>
+                <span class="text-lg md:text-xl font-bold tracking-tight text-white hidden sm:block">
+                    RanzzDrama
+                </span>
             </div>
-            <input
-              type="text"
-              id="search-input"
-              class="block w-full pl-11 pr-4 py-2.5 border-none rounded-full leading-5 bg-white/5 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-white/20 focus:bg-white/10 sm:text-sm transition-all"
-              placeholder="Cari drama, aktor..."
-            />
-          </form>
+
+            <!-- Search Bar -->
+            <div class="flex-1 max-w-lg px-4 hidden md:block ml-auto">
+                <form id="search-form" class="relative" onsubmit="app.handleSearch(event)">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <i class="ph ph-magnifying-glass text-gray-400"></i>
+                    </div>
+                    <input type="text" id="search-input" class="block w-full pl-11 pr-4 py-2.5 border-none rounded-full leading-5 bg-white/5 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-white/20 focus:bg-white/10 sm:text-sm transition-all" placeholder="Cari drama, aktor...">
+                </form>
+            </div>
+
+            <!-- Mobile Search Icon -->
+            <button class="md:hidden p-2 text-gray-400 hover:text-white transition" onclick="app.toggleMobileSearch()">
+                <i class="ph ph-magnifying-glass text-2xl"></i>
+            </button>
         </div>
-
-        <!-- Mobile Search Icon -->
-        <button
-          class="md:hidden p-2 text-gray-400 hover:text-white transition"
-          onclick="app.toggleMobileSearch()"
-        >
-          <i class="ph ph-magnifying-glass text-2xl"></i>
-        </button>
-      </div>
-
-      <!-- Mobile Search Dropdown -->
-      <div
-        id="mobile-search-container"
-        class="hidden px-5 pb-4 md:hidden bg-darker/90 backdrop-blur-xl border-b border-white/5"
-      >
-        <form onsubmit="app.handleSearch(event, true)" class="relative">
-          <div
-            class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"
-          >
-            <i class="ph ph-magnifying-glass text-gray-400"></i>
-          </div>
-          <input
-            type="text"
-            id="mobile-search-input"
-            class="block w-full pl-11 pr-4 py-2.5 border-none rounded-full bg-white/5 text-gray-200 placeholder-gray-500 focus:outline-none focus:bg-white/10 sm:text-sm transition-all"
-            placeholder="Cari drama..."
-          />
-        </form>
-      </div>
+        
+        <!-- Mobile Search Dropdown -->
+        <div id="mobile-search-container" class="hidden px-5 pb-4 md:hidden bg-darker/90 backdrop-blur-xl border-b border-white/5">
+            <form onsubmit="app.handleSearch(event, true)" class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="ph ph-magnifying-glass text-gray-400"></i>
+                </div>
+                <input type="text" id="mobile-search-input" class="block w-full pl-11 pr-4 py-2.5 border-none rounded-full bg-white/5 text-gray-200 placeholder-gray-500 focus:outline-none focus:bg-white/10 sm:text-sm transition-all" placeholder="Cari drama...">
+            </form>
+        </div>
     </nav>
 
     <!-- Main Content Area -->
-    <main
-      id="main-content"
-      class="flex-1 w-full max-w-[1800px] mx-auto relative"
-    >
-      <!-- Views will be injected here -->
+    <main id="main-content" class="flex-1 w-full max-w-[1800px] mx-auto relative">
+        <!-- Views will be injected here -->
     </main>
 
     <!-- Bottom Navigation (Mobile Only) -->
-    <div
-      class="md:hidden fixed bottom-0 left-0 right-0 bg-darker/80 backdrop-blur-xl border-t border-white/5 z-50 px-8 py-3 flex justify-between items-center pb-safe"
-    >
-      <button
-        onclick="app.navigate('home')"
-        class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition nav-btn active"
-        data-nav="home"
-      >
-        <i class="ph-fill ph-house text-[22px]"></i>
-        <span class="text-[10px] font-medium tracking-wide">Beranda</span>
-      </button>
-      <button
-        onclick="app.navigate('trending')"
-        class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition nav-btn"
-        data-nav="trending"
-      >
-        <i class="ph-fill ph-trend-up text-[22px]"></i>
-        <span class="text-[10px] font-medium tracking-wide">Tren</span>
-      </button>
-      <button
-        onclick="app.navigate('latest')"
-        class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition nav-btn"
-        data-nav="latest"
-      >
-        <i class="ph-fill ph-sparkle text-[22px]"></i>
-        <span class="text-[10px] font-medium tracking-wide">Terbaru</span>
-      </button>
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-darker/80 backdrop-blur-xl border-t border-white/5 z-50 px-8 py-3 flex justify-between items-center pb-safe">
+        <button onclick="app.navigate('home')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition nav-btn active" data-nav="home">
+            <i class="ph-fill ph-house text-[22px]"></i>
+            <span class="text-[10px] font-medium tracking-wide">Beranda</span>
+        </button>
+        <button onclick="app.navigate('trending')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition nav-btn" data-nav="trending">
+            <i class="ph-fill ph-trend-up text-[22px]"></i>
+            <span class="text-[10px] font-medium tracking-wide">Tren</span>
+        </button>
+        <button onclick="app.navigate('latest')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition nav-btn" data-nav="latest">
+            <i class="ph-fill ph-sparkle text-[22px]"></i>
+            <span class="text-[10px] font-medium tracking-wide">Terbaru</span>
+        </button>
     </div>
 
     <!-- Loader Overlay -->
-    <div
-      id="global-loader"
-      class="hidden fixed inset-0 bg-darker/90 z-[100] flex flex-col justify-center items-center backdrop-blur-md"
-    >
-      <i class="ph ph-circle-notch animate-spin text-4xl text-primary mb-4"></i>
-      <p
-        class="text-gray-400 font-medium text-sm tracking-wide"
-        id="loader-text"
-      >
-        Memuat...
-      </p>
+    <div id="global-loader" class="hidden fixed inset-0 bg-darker/90 z-[100] flex flex-col justify-center items-center backdrop-blur-md">
+        <i class="ph ph-circle-notch animate-spin text-4xl text-primary mb-4"></i>
+        <p class="text-gray-400 font-medium text-sm tracking-wide" id="loader-text">Memuat...</p>
     </div>
 
     <!-- Toast Notification -->
-    <div
-      id="toast-container"
-      class="fixed top-20 right-4 z-[100] flex flex-col gap-2 pointer-events-none"
-    ></div>
+    <div id="toast-container" class="fixed top-20 right-4 z-[100] flex flex-col gap-2 pointer-events-none"></div>
 
     <!-- AI Floating Chat Button & Modal -->
-    <div
-      id="ai-chat-wrapper"
-      class="fixed bottom-24 md:bottom-8 right-5 md:right-8 z-50 hidden"
-    >
-      <!-- Chat Window -->
-      <div
-        id="ai-chat-window"
-        class="hidden mb-4 w-[90vw] sm:w-[380px] h-[450px] bg-darker/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all"
-      >
-        <!-- Header -->
-        <div
-          class="bg-white/5 border-b border-white/5 p-4 flex justify-between items-center"
-        >
-          <div
-            class="flex items-center gap-2 text-white font-semibold tracking-wide"
-          >
-            <i class="ph-fill ph-sparkle text-primary text-lg"></i> Teman Nonton
-            AI
-          </div>
-          <button
-            onclick="app.closeAIChat()"
-            class="text-gray-400 hover:text-white transition"
-          >
-            <i class="ph ph-x text-lg"></i>
-          </button>
+    <div id="ai-chat-wrapper" class="fixed bottom-24 md:bottom-8 right-5 md:right-8 z-50 hidden">
+        <!-- Chat Window -->
+        <div id="ai-chat-window" class="hidden mb-4 w-[90vw] sm:w-[380px] h-[450px] bg-darker/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all">
+            <!-- Header -->
+            <div class="bg-white/5 border-b border-white/5 p-4 flex justify-between items-center">
+                <div class="flex items-center gap-2 text-white font-semibold tracking-wide">
+                    <i class="ph-fill ph-sparkle text-primary text-lg"></i> Teman Nonton AI
+                </div>
+                <button onclick="app.closeAIChat()" class="text-gray-400 hover:text-white transition">
+                    <i class="ph ph-x text-lg"></i>
+                </button>
+            </div>
+            <!-- Messages -->
+            <div id="ai-chat-messages" class="flex-1 p-5 overflow-y-auto chat-scroll flex flex-col gap-4">
+                <!-- Messages will be injected here -->
+            </div>
+            <!-- Input -->
+            <div class="p-3 bg-darker border-t border-white/5">
+                <form onsubmit="app.handleChatSubmit(event)" class="relative flex gap-2 items-center">
+                    <input type="text" id="ai-chat-input" class="w-full bg-white/5 border-none rounded-full py-2.5 pl-4 pr-12 text-sm text-white focus:outline-none focus:bg-white/10 transition placeholder-gray-500" placeholder="Tanya tentang drama..." autocomplete="off">
+                    <button type="submit" class="absolute right-1.5 w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full hover:bg-primary/80 transition">
+                        <i class="ph-fill ph-paper-plane-right text-sm"></i>
+                    </button>
+                </form>
+            </div>
         </div>
-        <!-- Messages -->
-        <div
-          id="ai-chat-messages"
-          class="flex-1 p-5 overflow-y-auto chat-scroll flex flex-col gap-4"
-        >
-          <!-- Messages will be injected here -->
-        </div>
-        <!-- Input -->
-        <div class="p-3 bg-darker border-t border-white/5">
-          <form
-            onsubmit="app.handleChatSubmit(event)"
-            class="relative flex gap-2 items-center"
-          >
-            <input
-              type="text"
-              id="ai-chat-input"
-              class="w-full bg-white/5 border-none rounded-full py-2.5 pl-4 pr-12 text-sm text-white focus:outline-none focus:bg-white/10 transition placeholder-gray-500"
-              placeholder="Tanya tentang drama..."
-              autocomplete="off"
-            />
-            <button
-              type="submit"
-              class="absolute right-1.5 w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full hover:bg-primary/80 transition"
-            >
-              <i class="ph-fill ph-paper-plane-right text-sm"></i>
-            </button>
-          </form>
-        </div>
-      </div>
 
-      <!-- Floating Button -->
-      <button
-        onclick="app.toggleAIChat()"
-        class="absolute bottom-0 right-0 w-12 h-12 md:w-14 md:h-14 bg-primary rounded-full shadow-lg flex items-center justify-center text-white hover:scale-105 hover:bg-primary/90 transition-all z-50"
-      >
-        <i class="ph-fill ph-sparkle text-2xl"></i>
-      </button>
+        <!-- Floating Button -->
+        <button onclick="app.toggleAIChat()" class="absolute bottom-0 right-0 w-12 h-12 md:w-14 md:h-14 bg-primary rounded-full shadow-lg flex items-center justify-center text-white hover:scale-105 hover:bg-primary/90 transition-all z-50">
+            <i class="ph-fill ph-sparkle text-2xl"></i>
+        </button>
     </div>
 
     <!-- APP JAVASCRIPT LOGIC -->
     <script>
-      const API = {
-        base: "https://api.sansekai.my.id/api/dramabox",
-        foryou: () => `${API.base}/foryou`,
-        random: () => `${API.base}/randomdrama`,
-        latest: () => `${API.base}/latest`,
-        trending: () => `${API.base}/populersearch`,
-        dubIndoTerbaru: (page = 1) =>
-          `${API.base}/dubindo?classify=terbaru&page=${page}`,
-        dubIndoPopuler: (page = 1) =>
-          `${API.base}/dubindo?classify=terpopuler&page=${page}`,
-        detail: (id) => `${API.base}/detail?bookId=${id}`,
-        episodes: (id) => `${API.base}/allepisode?bookId=${id}`,
-        search: (query) =>
-          `${API.base}/search?query=${encodeURIComponent(query)}`,
-        decrypt: (url) => `${API.base}/decrypt?url=${encodeURIComponent(url)}`,
-      };
+        const API = {
+            base: 'https://api.sansekai.my.id/api/dramabox',
+            foryou: () => `${API.base}/foryou`,
+            random: () => `${API.base}/randomdrama`,
+            latest: () => `${API.base}/latest`,
+            trending: () => `${API.base}/populersearch`,
+            dubIndoTerbaru: (page=1) => `${API.base}/dubindo?classify=terbaru&page=${page}`,
+            dubIndoPopuler: (page=1) => `${API.base}/dubindo?classify=terpopuler&page=${page}`,
+            detail: (id) => `${API.base}/detail?bookId=${id}`,
+            episodes: (id) => `${API.base}/allepisode?bookId=${id}`,
+            search: (query) => `${API.base}/search?query=${encodeURIComponent(query)}`,
+            decrypt: (url) => `${API.base}/decrypt?url=${encodeURIComponent(url)}`
+        };
 
-      const app = {
-        currentView: "home",
-        data: {
-          hero: null,
-          foryou: [],
-          latest: [],
-          trending: [],
-          dubindo: [],
-          currentDrama: null,
-          currentEpisodes: [],
-        },
+        const app = {
+            currentView: 'home',
+            data: {
+                hero: null,
+                foryou: [],
+                latest: [],
+                trending: [],
+                dubindo: [],
+                currentDrama: null,
+                currentEpisodes: []
+            },
+            
+            init: async function() {
+                this.showLoader('Menyiapkan...');
+                try {
+                    await this.loadHomeData();
+                    this.renderHome();
+                } catch (error) {
+                    this.showToast('Gagal memuat data awal. Periksa koneksi Anda.', 'error');
+                } finally {
+                    this.hideLoader();
+                }
+            },
 
-        init: async function () {
-          this.showLoader("Menyiapkan...");
-          try {
-            await this.loadHomeData();
-            this.renderHome();
-          } catch (error) {
-            this.showToast(
-              "Gagal memuat data awal. Periksa koneksi Anda.",
-              "error",
-            );
-          } finally {
-            this.hideLoader();
-          }
-        },
+            navigate: function(view, param = null) {
+                this.currentView = view;
+                this.updateNavUI(view);
+                window.scrollTo({top: 0, behavior: 'smooth'});
 
-        navigate: function (view, param = null) {
-          this.currentView = view;
-          this.updateNavUI(view);
-          window.scrollTo({ top: 0, behavior: "smooth" });
+                document.getElementById('ai-chat-wrapper').classList.add('hidden');
+                this.closeAIChat();
 
-          document.getElementById("ai-chat-wrapper").classList.add("hidden");
-          this.closeAIChat();
+                if (view === 'home') this.renderHome();
+                else if (view === 'trending') this.renderListView('Sedang Tren', this.data.trending);
+                else if (view === 'latest') this.renderListView('Rilis Terbaru', this.data.latest);
+                else if (view === 'detail') {
+                    this.loadDramaDetail(param);
+                    document.getElementById('ai-chat-wrapper').classList.remove('hidden');
+                }
+                else if (view === 'player') {
+                    this.renderPlayer(param.episode, param.episodesData);
+                    document.getElementById('ai-chat-wrapper').classList.remove('hidden');
+                }
+                else if (view === 'search') this.renderListView(`Hasil Pencarian: "${param.query}"`, param.results);
+                // New Pages
+                else if (view === 'faq') this.renderStaticPage('Info & FAQ', this.getFAQContent());
+                else if (view === 'support') this.renderStaticPage('Dukung Kami', this.getSupportContent());
+                else if (view === 'privacy') this.renderStaticPage('Privacy Policy', this.getPrivacyContent());
+                else if (view === 'disclaimer') this.renderStaticPage('Disclaimer', this.getDisclaimerContent());
+                else if (view === 'contact') this.renderStaticPage('Hubungi Kami', this.getContactContent());
+            },
 
-          if (view === "home") this.renderHome();
-          else if (view === "trending")
-            this.renderListView("Sedang Tren", this.data.trending);
-          else if (view === "latest")
-            this.renderListView("Rilis Terbaru", this.data.latest);
-          else if (view === "detail") {
-            this.loadDramaDetail(param);
-            document
-              .getElementById("ai-chat-wrapper")
-              .classList.remove("hidden");
-          } else if (view === "player") {
-            this.renderPlayer(param.episode, param.episodesData);
-            document
-              .getElementById("ai-chat-wrapper")
-              .classList.remove("hidden");
-          } else if (view === "search")
-            this.renderListView(
-              `Hasil Pencarian: "${param.query}"`,
-              param.results,
-            );
-          // New Pages
-          else if (view === "faq")
-            this.renderStaticPage("Info & FAQ", this.getFAQContent());
-          else if (view === "support")
-            this.renderStaticPage("Dukung Kami", this.getSupportContent());
-          else if (view === "privacy")
-            this.renderStaticPage("Privacy Policy", this.getPrivacyContent());
-          else if (view === "disclaimer")
-            this.renderStaticPage("Disclaimer", this.getDisclaimerContent());
-          else if (view === "contact")
-            this.renderStaticPage("Hubungi Kami", this.getContactContent());
-        },
+            updateNavUI: function(view) {
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.classList.remove('text-white');
+                    if(btn.dataset.nav === view) btn.classList.add('text-white');
+                });
+            },
 
-        updateNavUI: function (view) {
-          document.querySelectorAll(".nav-btn").forEach((btn) => {
-            btn.classList.remove("text-white");
-            if (btn.dataset.nav === view) btn.classList.add("text-white");
-          });
-        },
+            fetchData: async function(url) {
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        console.warn(`API returned ${response.status} for ${url}`);
+                        return null;
+                    }
+                    return await response.json();
+                } catch (error) {
+                    console.warn(`Fetch failed for ${url}:`, error.message);
+                    return null;
+                }
+            },
 
-        fetchData: async function (url) {
-          try {
-            const response = await fetch(url);
-            if (!response.ok) {
-              console.warn(`API returned ${response.status} for ${url}`);
-              return null;
-            }
-            return await response.json();
-          } catch (error) {
-            console.warn(`Fetch failed for ${url}:`, error.message);
-            return null;
-          }
-        },
+            loadHomeData: async function() {
+                const [random, foryou, latestData, trendingData, dubPopuler] = await Promise.all([
+                    this.fetchData(API.random()),
+                    this.fetchData(API.foryou()),
+                    this.fetchData(API.latest()),
+                    this.fetchData(API.trending()),
+                    this.fetchData(API.dubIndoPopuler(1))
+                ]);
 
-        loadHomeData: async function () {
-          const [random, foryou, latestData, trendingData, dubPopuler] =
-            await Promise.all([
-              this.fetchData(API.random()),
-              this.fetchData(API.foryou()),
-              this.fetchData(API.latest()),
-              this.fetchData(API.trending()),
-              this.fetchData(API.dubIndoPopuler(1)),
-            ]);
+                if(random && Array.isArray(random) && random.length > 0) this.data.hero = random[0];
+                this.data.foryou = Array.isArray(foryou) ? foryou : [];
+                this.data.latest = Array.isArray(latestData) ? latestData : [];
+                this.data.trending = Array.isArray(trendingData) ? trendingData : [];
+                this.data.dubindo = Array.isArray(dubPopuler) ? dubPopuler : [];
+            },
 
-          if (random && Array.isArray(random) && random.length > 0)
-            this.data.hero = random[0];
-          this.data.foryou = Array.isArray(foryou) ? foryou : [];
-          this.data.latest = Array.isArray(latestData) ? latestData : [];
-          this.data.trending = Array.isArray(trendingData) ? trendingData : [];
-          this.data.dubindo = Array.isArray(dubPopuler) ? dubPopuler : [];
-        },
+            loadDramaDetail: async function(bookId) {
+                this.showLoader();
+                try {
+                    const detail = await this.fetchData(API.detail(bookId));
+                    const episodes = await this.fetchData(API.episodes(bookId));
+                    this.data.currentDrama = detail;
+                    this.data.currentEpisodes = episodes;
+                    this.renderDetail(detail, episodes);
+                } catch (error) {
+                    this.showToast('Gagal memuat detail drama.', 'error');
+                    this.navigate('home');
+                } finally {
+                    this.hideLoader();
+                }
+            },
 
-        loadDramaDetail: async function (bookId) {
-          this.showLoader();
-          try {
-            const detail = await this.fetchData(API.detail(bookId));
-            const episodes = await this.fetchData(API.episodes(bookId));
-            this.data.currentDrama = detail;
-            this.data.currentEpisodes = episodes;
-            this.renderDetail(detail, episodes);
-          } catch (error) {
-            this.showToast("Gagal memuat detail drama.", "error");
-            this.navigate("home");
-          } finally {
-            this.hideLoader();
-          }
-        },
+            handleSearch: async function(e, isMobile = false) {
+                e.preventDefault();
+                const inputId = isMobile ? 'mobile-search-input' : 'search-input';
+                const query = document.getElementById(inputId).value.trim();
+                
+                if (!query) return;
+                if (isMobile) this.toggleMobileSearch();
+                
+                this.showLoader();
+                try {
+                    const results = await this.fetchData(API.search(query));
+                    this.navigate('search', { query, results });
+                } catch (error) {
+                    this.showToast('Gagal melakukan pencarian.', 'error');
+                } finally {
+                    this.hideLoader();
+                }
+            },
+            
+            renderHome: function() {
+                const main = document.getElementById('main-content');
+                let html = '';
 
-        handleSearch: async function (e, isMobile = false) {
-          e.preventDefault();
-          const inputId = isMobile ? "mobile-search-input" : "search-input";
-          const query = document.getElementById(inputId).value.trim();
-
-          if (!query) return;
-          if (isMobile) this.toggleMobileSearch();
-
-          this.showLoader();
-          try {
-            const results = await this.fetchData(API.search(query));
-            this.navigate("search", { query, results });
-          } catch (error) {
-            this.showToast("Gagal melakukan pencarian.", "error");
-          } finally {
-            this.hideLoader();
-          }
-        },
-
-        renderHome: function () {
-          const main = document.getElementById("main-content");
-          let html = "";
-
-          if (this.data.hero) {
-            const hero = this.data.hero;
-            const cover = hero.bookCover || hero.coverWap;
-            html += `
+                if (this.data.hero) {
+                    const hero = this.data.hero;
+                    const cover = hero.bookCover || hero.coverWap;
+                    html += `
                         <div class="relative w-full h-[60vh] md:h-[75vh] group cursor-pointer overflow-hidden" onclick="app.navigate('detail', '${hero.bookId}')">
                             <div class="absolute inset-0 bg-gradient-to-t from-darker via-darker/40 to-transparent z-10"></div>
                             <div class="absolute inset-0 bg-gradient-to-r from-darker/80 to-transparent z-10 hidden md:block"></div>
@@ -470,24 +341,24 @@
                             </div>
                         </div>
                     `;
-          }
+                }
 
-          html += '<div class="px-5 lg:px-10 py-8 space-y-10 pb-8 md:pb-12">';
-          html += this.createRow("Pilihan Editor", this.data.foryou);
-          html += this.createRow("Rilis Terbaru", this.data.latest);
-          html += this.createRow("Sedang Tren", this.data.trending);
-          html += this.createRow("Dubbing Indonesia", this.data.dubindo);
-          html += "</div>";
+                html += '<div class="px-5 lg:px-10 py-8 space-y-10 pb-8 md:pb-12">';
+                html += this.createRow('Pilihan Editor', this.data.foryou);
+                html += this.createRow('Rilis Terbaru', this.data.latest);
+                html += this.createRow('Sedang Tren', this.data.trending);
+                html += this.createRow('Dubbing Indonesia', this.data.dubindo);
+                html += '</div>';
 
-          // Add Footer
-          html += this.renderFooter();
+                // Add Footer
+                html += this.renderFooter();
 
-          main.innerHTML = html;
-        },
+                main.innerHTML = html;
+            },
 
-        renderListView: function (title, items) {
-          const main = document.getElementById("main-content");
-          let html = `
+            renderListView: function(title, items) {
+                const main = document.getElementById('main-content');
+                let html = `
                     <div class="px-5 lg:px-10 py-8 pt-10 min-h-screen flex flex-col">
                         <div class="flex-1">
                             <div class="flex items-center gap-4 mb-8">
@@ -498,35 +369,33 @@
                             </div>
                 `;
 
-          if (!items || items.length === 0) {
-            html += `
+                if (!items || items.length === 0) {
+                    html += `
                         <div class="flex flex-col items-center justify-center py-32 text-gray-500">
                             <i class="ph ph-film-strip text-6xl mb-4 opacity-50"></i>
                             <p class="text-base font-medium">Tidak ada drama yang ditemukan.</p>
                         </div>
                     `;
-          } else {
-            html += `<div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-3 md:gap-5 pb-12">`;
-            items.forEach((item) => {
-              html += this.createCard(item);
-            });
-            html += `</div>`;
-          }
+                } else {
+                    html += `<div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-3 md:gap-5 pb-12">`;
+                    items.forEach(item => {
+                        html += this.createCard(item);
+                    });
+                    html += `</div>`;
+                }
 
-          html += `</div>`; // Close flex-1
-          html += this.renderFooter();
-          html += `</div>`; // Close main wrapper
-          main.innerHTML = html;
-        },
+                html += `</div>`; // Close flex-1
+                html += this.renderFooter();
+                html += `</div>`; // Close main wrapper
+                main.innerHTML = html;
+            },
 
-        renderDetail: function (drama, episodes) {
-          const main = document.getElementById("main-content");
-          const cover = drama.coverWap || drama.cover || drama.bookCover;
-          const tags =
-            drama.tags ||
-            (drama.tagV3s ? drama.tagV3s.map((t) => t.tagName) : []);
+            renderDetail: function(drama, episodes) {
+                const main = document.getElementById('main-content');
+                const cover = drama.coverWap || drama.cover || drama.bookCover;
+                const tags = drama.tags || (drama.tagV3s ? drama.tagV3s.map(t=>t.tagName) : []);
 
-          let html = `
+                let html = `
                     <div class="relative w-full min-h-screen pb-24 md:pb-12">
                         <!-- Header Background -->
                         <div class="relative w-full h-[45vh] md:h-[55vh]">
@@ -553,33 +422,23 @@
                                     
                                     <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm font-medium text-gray-400 mb-5">
                                         <span class="flex items-center gap-1.5"><i class="ph ph-video-camera text-lg"></i> ${drama.chapterCount} Ep</span>
-                                        ${drama.playCount ? `<span class="flex items-center gap-1.5"><i class="ph ph-eye text-lg"></i> ${drama.playCount}</span>` : ""}
-                                        ${drama.corner ? `<span class="text-primary">${drama.corner.name}</span>` : ""}
+                                        ${drama.playCount ? `<span class="flex items-center gap-1.5"><i class="ph ph-eye text-lg"></i> ${drama.playCount}</span>` : ''}
+                                        ${drama.corner ? `<span class="text-primary">${drama.corner.name}</span>` : ''}
                                     </div>
 
                                     <div class="flex gap-2 flex-wrap justify-center md:justify-start mb-6">
-                                        ${tags
-                                          .slice(0, 4)
-                                          .map(
-                                            (tag) =>
-                                              `<span class="px-3 py-1 bg-white/5 rounded-full text-[11px] font-medium text-gray-300">${tag}</span>`,
-                                          )
-                                          .join("")}
+                                        ${tags.slice(0, 4).map(tag => `<span class="px-3 py-1 bg-white/5 rounded-full text-[11px] font-medium text-gray-300">${tag}</span>`).join('')}
                                     </div>
 
                                     <p class="text-gray-400 leading-relaxed text-sm md:text-base mb-6 max-w-3xl">${drama.introduction}</p>
                                     
                                     <div class="flex items-center justify-center md:justify-start gap-3 mb-10 flex-wrap">
                                         <!-- Play First Episode Button -->
-                                        ${
-                                          episodes && episodes.length > 0
-                                            ? `
+                                        ${episodes && episodes.length > 0 ? `
                                         <button onclick="app.playEpisode(${episodes[0].chapterIndex}, true)" class="bg-white text-darker hover:bg-gray-200 font-semibold py-2.5 px-8 rounded-full w-max flex items-center gap-2 transition text-sm">
                                             <i class="ph-fill ph-play text-lg"></i> Mulai Nonton
                                         </button>
-                                        `
-                                            : ""
-                                        }
+                                        ` : ''}
                                         
                                         <!-- AI Summary Button -->
                                         <button onclick="app.generateAISummary()" class="bg-white/10 hover:bg-white/20 text-white font-medium py-2.5 px-6 rounded-full w-max flex items-center gap-2 transition text-sm">
@@ -600,47 +459,33 @@
                             <div class="mt-12 max-w-5xl">
                                 <h3 class="text-lg md:text-xl font-semibold mb-5 text-white/90">Episode</h3>
                                 
-                                ${
-                                  episodes && episodes.length > 0
-                                    ? `
+                                ${episodes && episodes.length > 0 ? `
                                     <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2.5 max-h-[50vh] overflow-y-auto pr-2 custom-scrollbar">
-                                        ${episodes
-                                          .map(
-                                            (ep) => `
+                                        ${episodes.map(ep => `
                                             <button onclick="app.playEpisode(${ep.chapterIndex}, false)" 
                                                 class="relative flex flex-col justify-center items-center aspect-square rounded-xl bg-white/5 hover:bg-white/10 transition group overflow-hidden">
                                                 <span class="text-sm font-medium text-gray-300 group-hover:text-white transition">${ep.chapterIndex + 1}</span>
-                                                ${ep.isCharge ? '<i class="ph-fill ph-lock-key absolute top-1.5 right-1.5 text-gray-500 text-[10px]"></i>' : ""}
+                                                ${ep.isCharge ? '<i class="ph-fill ph-lock-key absolute top-1.5 right-1.5 text-gray-500 text-[10px]"></i>' : ''}
                                             </button>
-                                        `,
-                                          )
-                                          .join("")}
+                                        `).join('')}
                                     </div>
-                                `
-                                    : `
+                                ` : `
                                     <p class="text-gray-500 text-sm">Belum ada episode tersedia.</p>
-                                `
-                                }
+                                `}
                             </div>
                         </div>
                     </div>
                 `;
-          main.innerHTML = html;
-        },
+                main.innerHTML = html;
+            },
 
-        renderPlayer: function (episodeIndex, allEpisodes) {
-          const main = document.getElementById("main-content");
-          const episode = allEpisodes.find(
-            (ep) => ep.chapterIndex === episodeIndex,
-          );
-          const prevEp = allEpisodes.find(
-            (ep) => ep.chapterIndex === episodeIndex - 1,
-          );
-          const nextEp = allEpisodes.find(
-            (ep) => ep.chapterIndex === episodeIndex + 1,
-          );
+            renderPlayer: function(episodeIndex, allEpisodes) {
+                const main = document.getElementById('main-content');
+                const episode = allEpisodes.find(ep => ep.chapterIndex === episodeIndex);
+                const prevEp = allEpisodes.find(ep => ep.chapterIndex === episodeIndex - 1);
+                const nextEp = allEpisodes.find(ep => ep.chapterIndex === episodeIndex + 1);
 
-          let html = `
+                let html = `
                     <div class="w-full min-h-screen bg-black flex flex-col">
                         <!-- Top Bar inside player -->
                         <div class="absolute top-0 left-0 w-full p-4 md:p-6 flex justify-between items-center z-50 bg-gradient-to-b from-black/80 to-transparent">
@@ -670,10 +515,10 @@
                                 </div>
                                 
                                 <div class="flex gap-2 w-full md:w-auto">
-                                    <button ${!prevEp ? "disabled" : ""} onclick="app.playEpisode(${episodeIndex - 1}, false)" class="flex-1 md:flex-none px-4 py-2.5 bg-white/5 rounded-full hover:bg-white/10 transition disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm font-medium">
+                                    <button ${!prevEp ? 'disabled' : ''} onclick="app.playEpisode(${episodeIndex - 1}, false)" class="flex-1 md:flex-none px-4 py-2.5 bg-white/5 rounded-full hover:bg-white/10 transition disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm font-medium">
                                         <i class="ph-fill ph-skip-back"></i> Prev
                                     </button>
-                                    <button ${!nextEp ? "disabled" : ""} onclick="app.playEpisode(${episodeIndex + 1}, false)" class="flex-1 md:flex-none px-4 py-2.5 bg-white text-darker hover:bg-gray-200 rounded-full transition disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm font-bold">
+                                    <button ${!nextEp ? 'disabled' : ''} onclick="app.playEpisode(${episodeIndex + 1}, false)" class="flex-1 md:flex-none px-4 py-2.5 bg-white text-darker hover:bg-gray-200 rounded-full transition disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm font-bold">
                                         Next <i class="ph-fill ph-skip-forward"></i>
                                     </button>
                                 </div>
@@ -682,35 +527,29 @@
                             <!-- Episode Selector in Player -->
                             <div class="max-w-6xl mx-auto mt-8">
                                 <div class="flex gap-2 overflow-x-auto hide-scroll pb-2">
-                                    ${allEpisodes
-                                      .map(
-                                        (ep) => `
+                                    ${allEpisodes.map(ep => `
                                         <button onclick="app.playEpisode(${ep.chapterIndex}, false)" 
                                             class="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center font-medium text-sm transition
-                                            ${
-                                              ep.chapterIndex === episodeIndex
-                                                ? "bg-primary text-white"
-                                                : "bg-white/5 hover:bg-white/10 text-gray-400"
-                                            }">
+                                            ${ep.chapterIndex === episodeIndex 
+                                                ? 'bg-primary text-white' 
+                                                : 'bg-white/5 hover:bg-white/10 text-gray-400'}">
                                             ${ep.chapterIndex + 1}
                                         </button>
-                                    `,
-                                      )
-                                      .join("")}
+                                    `).join('')}
                                 </div>
                             </div>
                         </div>
                     </div>
                 `;
-          main.innerHTML = html;
-          window.scrollTo(0, 0);
-          this.loadVideoContent(episode);
-        },
+                main.innerHTML = html;
+                window.scrollTo(0,0);
+                this.loadVideoContent(episode);
+            },
 
-        // --- STATIC PAGES ---
-        renderStaticPage: function (title, contentHtml) {
-          const main = document.getElementById("main-content");
-          let html = `
+            // --- STATIC PAGES ---
+            renderStaticPage: function(title, contentHtml) {
+                const main = document.getElementById('main-content');
+                let html = `
                     <div class="px-5 lg:px-10 py-8 pt-10 min-h-screen flex flex-col items-center">
                         <div class="w-full max-w-4xl flex-1 pb-16">
                             <div class="flex items-center gap-4 mb-8">
@@ -728,11 +567,11 @@
                         </div>
                     </div>
                 `;
-          main.innerHTML = html;
-        },
+                main.innerHTML = html;
+            },
 
-        getFAQContent: function () {
-          return `
+            getFAQContent: function() {
+                return `
                     <h3 class="text-xl font-semibold text-white mb-4">Informasi Platform</h3>
                     <p class="mb-6">RanzzDrama adalah platform streaming pihak ketiga yang menyediakan koleksi drama pendek vertikal (seperti format TikTok/Shorts) dengan akses mudah dan cepat. Semua data diperoleh dari API pihak ketiga.</p>
                     
@@ -752,62 +591,62 @@
                         </div>
                     </div>
                 `;
-        },
+            },
 
-        getSupportContent: function () {
-          return `
+            getSupportContent: function() {
+                return `
                     <div class="text-center">
                         <i class="ph-fill ph-coffee text-5xl text-primary mb-4"></i>
                         <h3 class="text-2xl font-bold text-white mb-2">Dukung Operasional Server Kami</h3>
                         <p class="mb-8 max-w-lg mx-auto text-gray-400">Jika Anda menikmati layanan dari RanzzDrama, pertimbangkan untuk memberikan donasi seikhlasnya. Bantuan Anda sangat berarti agar server tetap berjalan dengan baik tanpa iklan yang mengganggu.</p>
                         
                         <div class="bg-white p-4 rounded-2xl w-max mx-auto border-4 border-primary shadow-[0_0_20px_rgba(139,92,246,0.2)]">
-                            <img src="https://raw.githubusercontent.com/kamdjut-ui/uploader/main/uploads/1774422790644_QRIS.jpeg" alt="QRIS Barcode" class="w-64 h-64 md:w-80 md:h-80 object-cover rounded-xl">
+                            <img src="https://placehold.co/400x400/1e293b/8b5cf6?text=Scan+QRIS+Disini" alt="QRIS Barcode" class="w-64 h-64 md:w-80 md:h-80 object-cover rounded-xl">
                         </div>
                         <p class="mt-6 text-sm text-gray-400">Scan QR Code di atas menggunakan aplikasi E-Wallet (OVO, Gopay, Dana, dll) atau M-Banking Anda.</p>
                     </div>
                 `;
-        },
+            },
 
-        getPrivacyContent: function () {
-          return `
+            getPrivacyContent: function() {
+                return `
                     <h3 class="text-xl font-semibold text-white mb-4">Kebijakan Privasi (Privacy Policy)</h3>
                     <p class="mb-4">RanzzDrama menghargai privasi Anda. Kami berjanji tidak akan mengumpulkan, menjual, atau membagikan data pribadi Anda ke pihak mana pun. Aplikasi ini bersifat *client-side* murni, yang berarti seluruh interaksi terjadi antara peramban (browser) Anda dan server penyedia API secara langsung.</p>
                     <p class="mb-4">Kami tidak mengharuskan Anda membuat akun atau memberikan informasi login, sehingga tidak ada *database* pengguna di server kami.</p>
                     <h4 class="text-lg font-semibold text-white mt-6 mb-2">Penyedia Pihak Ketiga</h4>
                     <p class="mb-4">Aplikasi ini memanggil API dari pihak ketiga (sansekai.my.id) untuk mengambil daftar film dan dekripsi tautan video. Kebijakan privasi tunduk pada kebijakan masing-masing *provider* API.</p>
                 `;
-        },
+            },
 
-        getDisclaimerContent: function () {
-          return `
+            getDisclaimerContent: function() {
+                return `
                     <h3 class="text-xl font-semibold text-white mb-4">Sangkalan (Disclaimer)</h3>
                     <p class="mb-4">Semua konten (video, gambar, sinopsis, teks) yang ditampilkan pada website ini disediakan oleh pihak ketiga. RanzzDrama <strong>TIDAK MENYIMPAN</strong> file video atau file media apa pun di dalam server kami. Kami hanya menyediakan UI (User Interface) dan *player* untuk memudahkan akses (seperti mesin pencari tautan).</p>
                     <p class="mb-4">Kami tidak bertanggung jawab atas pelanggaran hak cipta, legalitas, keakuratan, kepatutan, atau aspek lain dari konten materi yang ditayangkan. Jika Anda memiliki masalah hukum, silakan hubungi pemilik berkas media atau situs penyedia API terkait.</p>
                 `;
-        },
+            },
 
-        getContactContent: function () {
-          return `
+            getContactContent: function() {
+                return `
                     <div class="text-center py-6">
                         <i class="ph-fill ph-chat-circle-dots text-5xl text-primary mb-4"></i>
                         <h3 class="text-2xl font-bold text-white mb-2">Hubungi Tim Kami</h3>
                         <p class="mb-8 max-w-lg mx-auto text-gray-400">Menemukan bug? Memiliki saran fitur? Atau ingin bekerja sama? Jangan ragu untuk menghubungi kami melalui platform di bawah ini.</p>
                         
                         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <a href="https://wa.me/6281214300828" target="_blank" class="w-full sm:w-auto bg-[#25D366] hover:bg-[#20bd59] text-white font-semibold py-3 px-8 rounded-full flex items-center justify-center gap-2 transition transform hover:-translate-y-1">
+                            <a href="https://wa.me/6281234567890" target="_blank" class="w-full sm:w-auto bg-[#25D366] hover:bg-[#20bd59] text-white font-semibold py-3 px-8 rounded-full flex items-center justify-center gap-2 transition transform hover:-translate-y-1">
                                 <i class="ph-fill ph-whatsapp-logo text-2xl"></i> WhatsApp
                             </a>
-                            <a href="https://t.me/cangcuthideung" target="_blank" class="w-full sm:w-auto bg-[#229ED9] hover:bg-[#1f8ec4] text-white font-semibold py-3 px-8 rounded-full flex items-center justify-center gap-2 transition transform hover:-translate-y-1">
+                            <a href="https://t.me/ranzzdrama" target="_blank" class="w-full sm:w-auto bg-[#229ED9] hover:bg-[#1f8ec4] text-white font-semibold py-3 px-8 rounded-full flex items-center justify-center gap-2 transition transform hover:-translate-y-1">
                                 <i class="ph-fill ph-telegram-logo text-2xl"></i> Telegram
                             </a>
                         </div>
                     </div>
                 `;
-        },
+            },
 
-        renderFooter: function () {
-          return `
+            renderFooter: function() {
+                return `
                     <footer class="mt-8 border-t border-white/5 pt-10 pb-24 md:pb-10">
                         <div class="container mx-auto px-5 lg:px-10 flex flex-col md:flex-row justify-between items-center gap-6">
                             <div class="flex items-center gap-2">
@@ -828,37 +667,37 @@
                         </div>
                     </footer>
                 `;
-        },
+            },
 
-        // --- HELPERS & COMPONENTS ---
+            // --- HELPERS & COMPONENTS ---
 
-        createRow: function (title, items) {
-          if (!items || items.length === 0) return "";
-          const cardsHtml = items.map((item) => this.createCard(item)).join("");
-
-          return `
+            createRow: function(title, items) {
+                if(!items || items.length === 0) return '';
+                const cardsHtml = items.map(item => this.createCard(item)).join('');
+                
+                return `
                     <div class="w-full">
                         <div class="flex items-center justify-between mb-4">
                             <h2 class="text-lg md:text-xl font-semibold tracking-tight text-white/95">${title}</h2>
                             <div class="flex gap-2 hidden md:flex">
-                                <button class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition text-gray-400 hover:text-white" onclick="document.getElementById('row-${title.replace(/\s+/g, "")}').scrollBy({left: -300, behavior: 'smooth'})">
+                                <button class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition text-gray-400 hover:text-white" onclick="document.getElementById('row-${title.replace(/\s+/g, '')}').scrollBy({left: -300, behavior: 'smooth'})">
                                     <i class="ph ph-caret-left"></i>
                                 </button>
-                                <button class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition text-gray-400 hover:text-white" onclick="document.getElementById('row-${title.replace(/\s+/g, "")}').scrollBy({left: 300, behavior: 'smooth'})">
+                                <button class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition text-gray-400 hover:text-white" onclick="document.getElementById('row-${title.replace(/\s+/g, '')}').scrollBy({left: 300, behavior: 'smooth'})">
                                     <i class="ph ph-caret-right"></i>
                                 </button>
                             </div>
                         </div>
-                        <div id="row-${title.replace(/\s+/g, "")}" class="flex gap-3 md:gap-4 overflow-x-auto hide-scroll pb-4 snap-x">
+                        <div id="row-${title.replace(/\s+/g, '')}" class="flex gap-3 md:gap-4 overflow-x-auto hide-scroll pb-4 snap-x">
                             ${cardsHtml}
                         </div>
                     </div>
                 `;
-        },
+            },
 
-        createCard: function (item) {
-          const cover = item.coverWap || item.cover || item.bookCover;
-          return `
+            createCard: function(item) {
+                const cover = item.coverWap || item.cover || item.bookCover;
+                return `
                     <div class="flex-shrink-0 w-28 md:w-40 lg:w-48 snap-start group cursor-pointer" onclick="app.navigate('detail', '${item.bookId}')">
                         <div class="relative w-full aspect-portrait rounded-xl overflow-hidden bg-white/5">
                             <img src="${cover}" alt="${item.bookName}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" loading="lazy">
@@ -870,258 +709,225 @@
                                 </div>
                             </div>
                             
-                            ${item.corner ? `<div class="absolute top-2 right-2 bg-primary text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm">${item.corner.name}</div>` : ""}
+                            ${item.corner ? `<div class="absolute top-2 right-2 bg-primary text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm">${item.corner.name}</div>` : ''}
                         </div>
                         <h3 class="mt-2.5 text-[13px] md:text-sm font-medium text-white/90 group-hover:text-primary transition-colors truncate">${item.bookName}</h3>
-                        ${item.playCount ? `<p class="text-[11px] text-gray-500 mt-0.5">${item.playCount} views</p>` : ""}
+                        ${item.playCount ? `<p class="text-[11px] text-gray-500 mt-0.5">${item.playCount} views</p>` : ''}
                     </div>
                 `;
-        },
+            },
 
-        // --- VIDEO PLAYBACK LOGIC ---
+            // --- VIDEO PLAYBACK LOGIC ---
+            
+            playEpisode: function(episodeIndex, isFirstLoad = false) {
+                if(isFirstLoad) {
+                    this.navigate('player', { episode: episodeIndex, episodesData: this.data.currentEpisodes });
+                } else {
+                    this.renderPlayer(episodeIndex, this.data.currentEpisodes);
+                }
+            },
 
-        playEpisode: function (episodeIndex, isFirstLoad = false) {
-          if (isFirstLoad) {
-            this.navigate("player", {
-              episode: episodeIndex,
-              episodesData: this.data.currentEpisodes,
-            });
-          } else {
-            this.renderPlayer(episodeIndex, this.data.currentEpisodes);
-          }
-        },
+            loadVideoContent: async function(episodeData) {
+                const videoSource = document.getElementById('video-source');
+                const videoPlayer = document.getElementById('main-player');
+                
+                try {
+                    let encryptedUrl = '';
+                    const cdnList = episodeData.cdnList;
+                    
+                    if (cdnList && cdnList.length > 0) {
+                        const cdn = cdnList.find(c => c.isDefault === 1) || cdnList[0];
+                        if (cdn && cdn.videoPathList && cdn.videoPathList.length > 0) {
+                            const pathData = cdn.videoPathList.find(p => p.quality === 720) || cdn.videoPathList[0];
+                            encryptedUrl = pathData.videoPath;
+                        }
+                    }
 
-        loadVideoContent: async function (episodeData) {
-          const videoSource = document.getElementById("video-source");
-          const videoPlayer = document.getElementById("main-player");
+                    if (!encryptedUrl) throw new Error('URL video tidak ditemukan');
 
-          try {
-            let encryptedUrl = "";
-            const cdnList = episodeData.cdnList;
+                    const decryptData = await this.fetchData(API.decrypt(encryptedUrl));
+                    
+                    if (decryptData && decryptData.success && decryptData.streamUrl) {
+                        videoSource.src = decryptData.streamUrl;
+                        videoPlayer.load();
+                        videoPlayer.play().catch(e => console.log("Autoplay prevented", e));
+                    } else {
+                        throw new Error('Gagal mendekripsi video');
+                    }
+                } catch (error) {
+                    console.error("Video Load Error:", error);
+                    this.showToast(error.message || 'Gagal memuat video episode ini.', 'error');
+                }
+            },
 
-            if (cdnList && cdnList.length > 0) {
-              const cdn = cdnList.find((c) => c.isDefault === 1) || cdnList[0];
-              if (cdn && cdn.videoPathList && cdn.videoPathList.length > 0) {
-                const pathData =
-                  cdn.videoPathList.find((p) => p.quality === 720) ||
-                  cdn.videoPathList[0];
-                encryptedUrl = pathData.videoPath;
-              }
-            }
+            // --- UTILS ---
+            
+            toggleMobileSearch: function() {
+                const el = document.getElementById('mobile-search-container');
+                el.classList.toggle('hidden');
+                if(!el.classList.contains('hidden')){
+                    document.getElementById('mobile-search-input').focus();
+                }
+            },
 
-            if (!encryptedUrl) throw new Error("URL video tidak ditemukan");
+            showLoader: function(text = 'Memuat...') {
+                document.getElementById('loader-text').innerText = text;
+                document.getElementById('global-loader').classList.remove('hidden');
+            },
+            
+            hideLoader: function() {
+                document.getElementById('global-loader').classList.add('hidden');
+            },
 
-            const decryptData = await this.fetchData(API.decrypt(encryptedUrl));
+            showToast: function(message, type = 'info') {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                const bgColor = type === 'error' ? 'bg-red-500' : 'bg-primary';
+                const icon = type === 'error' ? 'ph-warning-circle' : 'ph-info';
+                
+                toast.className = `${bgColor} text-white px-4 py-3 rounded-xl shadow-lg flex items-center gap-3 transform transition-all duration-300 translate-x-full opacity-0 pointer-events-auto w-max max-w-xs text-sm font-medium`;
+                toast.innerHTML = `<i class="ph ${icon} text-lg"></i><p>${message}</p>`;
+                
+                container.appendChild(toast);
+                requestAnimationFrame(() => toast.classList.remove('translate-x-full', 'opacity-0'));
+                setTimeout(() => {
+                    toast.classList.add('translate-x-full', 'opacity-0');
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            },
 
-            if (decryptData && decryptData.success && decryptData.streamUrl) {
-              videoSource.src = decryptData.streamUrl;
-              videoPlayer.load();
-              videoPlayer
-                .play()
-                .catch((e) => console.log("Autoplay prevented", e));
-            } else {
-              throw new Error("Gagal mendekripsi video");
-            }
-          } catch (error) {
-            console.error("Video Load Error:", error);
-            this.showToast(
-              error.message || "Gagal memuat video episode ini.",
-              "error",
-            );
-          }
-        },
+            // --- GEMINI AI INTEGRATION ---
+            apiKey: "",
+            
+            callGeminiAPI: async function(prompt, isChat = false) {
+                const delays = [1000, 2000, 4000, 8000, 16000];
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${this.apiKey}`;
+                
+                const systemPrompt = isChat 
+                    ? "Kamu adalah asisten AI ahli drama Asia (DramaBox) yang ramah dan asyik. Jawab pertanyaan user seputar drama yang sedang ditonton dengan gaya bahasa Indonesia sehari-hari, jelas, dan tanpa spoiler berlebihan kecuali diminta. Jika pertanyaan di luar drama, arahkan dengan sopan kembali ke topik."
+                    : "Kamu adalah kritikus drama yang pandai merangkum cerita menjadi menarik tanpa spoiler. Gunakan bahasa Indonesia kasual yang bikin pembaca antusias dan penasaran.";
+                    
+                const payload = {
+                    contents: [{ parts: [{ text: prompt }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] }
+                };
 
-        // --- UTILS ---
+                for (let i = 0; i < 5; i++) {
+                    try {
+                        const response = await fetch(url, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                        const data = await response.json();
+                        return data.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, AI tidak merespon dengan benar.";
+                    } catch (error) {
+                        if (i === 4) return "Terjadi kesalahan saat menghubungi AI. Silakan coba lagi nanti.";
+                        await new Promise(res => setTimeout(res, delays[i]));
+                    }
+                }
+            },
 
-        toggleMobileSearch: function () {
-          const el = document.getElementById("mobile-search-container");
-          el.classList.toggle("hidden");
-          if (!el.classList.contains("hidden")) {
-            document.getElementById("mobile-search-input").focus();
-          }
-        },
+            generateAISummary: async function() {
+                const container = document.getElementById('ai-summary-container');
+                const loader = document.getElementById('ai-summary-loader');
+                const textEl = document.getElementById('ai-summary-text');
+                const drama = this.data.currentDrama;
 
-        showLoader: function (text = "Memuat...") {
-          document.getElementById("loader-text").innerText = text;
-          document.getElementById("global-loader").classList.remove("hidden");
-        },
+                container.classList.remove('hidden');
+                textEl.classList.add('hidden');
+                loader.classList.remove('hidden');
 
-        hideLoader: function () {
-          document.getElementById("global-loader").classList.add("hidden");
-        },
+                const prompt = `Buatkan ringkasan hype singkat (maksimal 2 paragraf) tanpa spoiler untuk drama berjudul '${drama.bookName}'. Sinopsis aslinya: '${drama.introduction}'. Tag genre: ${(drama.tags || []).join(', ')}. Buat pembaca sangat penasaran dan ingin segera menonton drama ini!`;
+                
+                const summary = await this.callGeminiAPI(prompt, false);
+                
+                loader.classList.add('hidden');
+                textEl.classList.remove('hidden');
+                
+                let formattedText = summary.replace(/\n/g, '<br>');
+                formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<b class="text-white font-semibold">$1</b>');
+                textEl.innerHTML = formattedText;
+            },
 
-        showToast: function (message, type = "info") {
-          const container = document.getElementById("toast-container");
-          const toast = document.createElement("div");
-          const bgColor = type === "error" ? "bg-red-500" : "bg-primary";
-          const icon = type === "error" ? "ph-warning-circle" : "ph-info";
+            toggleAIChat: function() {
+                const window = document.getElementById('ai-chat-window');
+                window.classList.toggle('hidden');
+                if (!window.classList.contains('hidden')) {
+                    this.addChatMessage('AI', `Halo! ✨ Ada yang ingin kamu tanyakan soal drama <b class="text-white font-medium">${this.data.currentDrama?.bookName || 'ini'}</b>?`);
+                    document.getElementById('ai-chat-input').focus();
+                }
+            },
 
-          toast.className = `${bgColor} text-white px-4 py-3 rounded-xl shadow-lg flex items-center gap-3 transform transition-all duration-300 translate-x-full opacity-0 pointer-events-auto w-max max-w-xs text-sm font-medium`;
-          toast.innerHTML = `<i class="ph ${icon} text-lg"></i><p>${message}</p>`;
+            closeAIChat: function() {
+                document.getElementById('ai-chat-window').classList.add('hidden');
+            },
 
-          container.appendChild(toast);
-          requestAnimationFrame(() =>
-            toast.classList.remove("translate-x-full", "opacity-0"),
-          );
-          setTimeout(() => {
-            toast.classList.add("translate-x-full", "opacity-0");
-            setTimeout(() => toast.remove(), 300);
-          }, 3000);
-        },
+            handleChatSubmit: async function(e) {
+                if (e) e.preventDefault();
+                const input = document.getElementById('ai-chat-input');
+                const message = input.value.trim();
+                if (!message) return;
 
-        // --- GEMINI AI INTEGRATION ---
-        apiKey: "",
+                input.value = '';
+                this.addChatMessage('User', message);
+                this.addChatTyping();
 
-        callGeminiAPI: async function (prompt, isChat = false) {
-          const delays = [1000, 2000, 4000, 8000, 16000];
-          const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${this.apiKey}`;
+                const drama = this.data.currentDrama;
+                const context = drama ? `Konteks Drama yang sedang ditonton: Judul='${drama.bookName}', Sinopsis='${drama.introduction}', Tag='${(drama.tags||[]).join(', ')}'.\n\n` : '';
+                const prompt = `${context}Pertanyaan User: ${message}`;
 
-          const systemPrompt = isChat
-            ? "Kamu adalah asisten AI ahli drama Asia (DramaBox) yang ramah dan asyik. Jawab pertanyaan user seputar drama yang sedang ditonton dengan gaya bahasa Indonesia sehari-hari, jelas, dan tanpa spoiler berlebihan kecuali diminta. Jika pertanyaan di luar drama, arahkan dengan sopan kembali ke topik."
-            : "Kamu adalah kritikus drama yang pandai merangkum cerita menjadi menarik tanpa spoiler. Gunakan bahasa Indonesia kasual yang bikin pembaca antusias dan penasaran.";
+                const reply = await this.callGeminiAPI(prompt, true);
+                
+                this.removeChatTyping();
+                
+                let formattedReply = reply.replace(/\n/g, '<br>');
+                formattedReply = formattedReply.replace(/\*\*(.*?)\*\*/g, '<b class="font-medium text-white">$1</b>');
+                this.addChatMessage('AI', formattedReply);
+            },
 
-          const payload = {
-            contents: [{ parts: [{ text: prompt }] }],
-            systemInstruction: { parts: [{ text: systemPrompt }] },
-          };
+            addChatMessage: function(sender, text) {
+                const container = document.getElementById('ai-chat-messages');
+                if (sender === 'AI' && container.children.length > 0 && text.includes('Halo! ✨')) return;
 
-          for (let i = 0; i < 5; i++) {
-            try {
-              const response = await fetch(url, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-              });
-              if (!response.ok)
-                throw new Error(`HTTP error! status: ${response.status}`);
-              const data = await response.json();
-              return (
-                data.candidates?.[0]?.content?.parts?.[0]?.text ||
-                "Maaf, AI tidak merespon dengan benar."
-              );
-            } catch (error) {
-              if (i === 4)
-                return "Terjadi kesalahan saat menghubungi AI. Silakan coba lagi nanti.";
-              await new Promise((res) => setTimeout(res, delays[i]));
-            }
-          }
-        },
+                const msgDiv = document.createElement('div');
+                msgDiv.className = `flex w-full ${sender === 'User' ? 'justify-end' : 'justify-start'}`;
+                
+                const bubble = document.createElement('div');
+                bubble.className = `max-w-[85%] rounded-2xl px-4 py-2.5 text-[13px] leading-relaxed ${sender === 'User' ? 'bg-white text-darker rounded-br-sm' : 'bg-white/10 text-gray-200 rounded-bl-sm'}`;
+                bubble.innerHTML = text;
+                
+                msgDiv.appendChild(bubble);
+                container.appendChild(msgDiv);
+                container.scrollTop = container.scrollHeight;
+            },
 
-        generateAISummary: async function () {
-          const container = document.getElementById("ai-summary-container");
-          const loader = document.getElementById("ai-summary-loader");
-          const textEl = document.getElementById("ai-summary-text");
-          const drama = this.data.currentDrama;
-
-          container.classList.remove("hidden");
-          textEl.classList.add("hidden");
-          loader.classList.remove("hidden");
-
-          const prompt = `Buatkan ringkasan hype singkat (maksimal 2 paragraf) tanpa spoiler untuk drama berjudul '${drama.bookName}'. Sinopsis aslinya: '${drama.introduction}'. Tag genre: ${(drama.tags || []).join(", ")}. Buat pembaca sangat penasaran dan ingin segera menonton drama ini!`;
-
-          const summary = await this.callGeminiAPI(prompt, false);
-
-          loader.classList.add("hidden");
-          textEl.classList.remove("hidden");
-
-          let formattedText = summary.replace(/\n/g, "<br>");
-          formattedText = formattedText.replace(
-            /\*\*(.*?)\*\*/g,
-            '<b class="text-white font-semibold">$1</b>',
-          );
-          textEl.innerHTML = formattedText;
-        },
-
-        toggleAIChat: function () {
-          const window = document.getElementById("ai-chat-window");
-          window.classList.toggle("hidden");
-          if (!window.classList.contains("hidden")) {
-            this.addChatMessage(
-              "AI",
-              `Halo! ✨ Ada yang ingin kamu tanyakan soal drama <b class="text-white font-medium">${this.data.currentDrama?.bookName || "ini"}</b>?`,
-            );
-            document.getElementById("ai-chat-input").focus();
-          }
-        },
-
-        closeAIChat: function () {
-          document.getElementById("ai-chat-window").classList.add("hidden");
-        },
-
-        handleChatSubmit: async function (e) {
-          if (e) e.preventDefault();
-          const input = document.getElementById("ai-chat-input");
-          const message = input.value.trim();
-          if (!message) return;
-
-          input.value = "";
-          this.addChatMessage("User", message);
-          this.addChatTyping();
-
-          const drama = this.data.currentDrama;
-          const context = drama
-            ? `Konteks Drama yang sedang ditonton: Judul='${drama.bookName}', Sinopsis='${drama.introduction}', Tag='${(drama.tags || []).join(", ")}'.\n\n`
-            : "";
-          const prompt = `${context}Pertanyaan User: ${message}`;
-
-          const reply = await this.callGeminiAPI(prompt, true);
-
-          this.removeChatTyping();
-
-          let formattedReply = reply.replace(/\n/g, "<br>");
-          formattedReply = formattedReply.replace(
-            /\*\*(.*?)\*\*/g,
-            '<b class="font-medium text-white">$1</b>',
-          );
-          this.addChatMessage("AI", formattedReply);
-        },
-
-        addChatMessage: function (sender, text) {
-          const container = document.getElementById("ai-chat-messages");
-          if (
-            sender === "AI" &&
-            container.children.length > 0 &&
-            text.includes("Halo! ✨")
-          )
-            return;
-
-          const msgDiv = document.createElement("div");
-          msgDiv.className = `flex w-full ${sender === "User" ? "justify-end" : "justify-start"}`;
-
-          const bubble = document.createElement("div");
-          bubble.className = `max-w-[85%] rounded-2xl px-4 py-2.5 text-[13px] leading-relaxed ${sender === "User" ? "bg-white text-darker rounded-br-sm" : "bg-white/10 text-gray-200 rounded-bl-sm"}`;
-          bubble.innerHTML = text;
-
-          msgDiv.appendChild(bubble);
-          container.appendChild(msgDiv);
-          container.scrollTop = container.scrollHeight;
-        },
-
-        addChatTyping: function () {
-          const container = document.getElementById("ai-chat-messages");
-          const typingDiv = document.createElement("div");
-          typingDiv.id = "ai-typing-indicator";
-          typingDiv.className = "flex w-full justify-start";
-          typingDiv.innerHTML = `
+            addChatTyping: function() {
+                const container = document.getElementById('ai-chat-messages');
+                const typingDiv = document.createElement('div');
+                typingDiv.id = 'ai-typing-indicator';
+                typingDiv.className = 'flex w-full justify-start';
+                typingDiv.innerHTML = `
                     <div class="bg-white/10 rounded-2xl rounded-bl-sm px-4 py-3.5 flex gap-1.5 items-center">
                         <div class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></div>
                         <div class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
                         <div class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
                     </div>
                 `;
-          container.appendChild(typingDiv);
-          container.scrollTop = container.scrollHeight;
-        },
+                container.appendChild(typingDiv);
+                container.scrollTop = container.scrollHeight;
+            },
 
-        removeChatTyping: function () {
-          const typing = document.getElementById("ai-typing-indicator");
-          if (typing) typing.remove();
-        },
-      };
+            removeChatTyping: function() {
+                const typing = document.getElementById('ai-typing-indicator');
+                if (typing) typing.remove();
+            }
+        };
 
-      window.addEventListener("DOMContentLoaded", () => {
-        app.init();
-      });
+        window.addEventListener('DOMContentLoaded', () => {
+            app.init();
+        });
     </script>
-  </body>
+</body>
 </html>
