@@ -477,14 +477,14 @@
                 },
                 async fetchByGenre(slug, page) {
                     this.searchTitle = `Genre: ${slug.replace(/-/g, ' ')}`;
-                    const res = await fetch(`https://apii.ranzzajaah.my.idp/api/anime/anichin/genre?slug=${slug}&page=${page}`);
+                    const res = await fetch(`https://apii.ranzzajaah.my.id/api/anime/anichin/genre?slug=${slug}&page=${page}`);
                     const data = await res.json();
                     this.listData = data.result.data;
                     this.hasNextPage = data.result.hasNextPage;
                 },
                 async fetchSearch(q, page) {
                     this.searchTitle = `Hasil Cari: ${q}`;
-                    const res = await Promise.all(['anichin', 'samehadaku'].map(p => fetch(`https://puruboy-api.vercel.app/api/anime/${p}/search?q=${q}&page=${page}`).then(r => r.json()).catch(() => ({}))));
+                    const res = await Promise.all(['anichin', 'samehadaku'].map(p => fetch(`https://apii.ranzzajaah.my.id/api/anime/${p}/search?q=${q}&page=${page}`).then(r => r.json()).catch(() => ({}))));
                     this.listData = res.flatMap(r => (r.success ? r.result.data : []));
                     this.hasNextPage = res.some(r => r.success && r.result.hasNextPage);
                 },
