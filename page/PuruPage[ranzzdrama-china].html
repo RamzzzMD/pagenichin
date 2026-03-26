@@ -74,16 +74,27 @@
     <!-- Navbar Desktop & Top Mobile -->
     <nav class="sticky top-0 z-50 bg-darker/70 backdrop-blur-xl border-b border-white/5 transition-all">
         <div class="container mx-auto px-5 lg:px-10 py-3 md:py-4 flex items-center justify-between">
-            <!-- Logo -->
-            <div class="flex items-center gap-2 cursor-pointer" onclick="app.navigate('home')">
-                <i class="ph-fill ph-monitor-play text-2xl md:text-3xl text-primary"></i>
-                <span class="text-lg md:text-xl font-bold tracking-tight text-white hidden sm:block">
-                    RanzzDrama
-                </span>
+            <!-- Logo & Desktop Navigation Links -->
+            <div class="flex items-center gap-8">
+                <div class="flex items-center gap-2 cursor-pointer" onclick="app.navigate('home')">
+                    <i class="ph-fill ph-monitor-play text-2xl md:text-3xl text-primary"></i>
+                    <span class="text-lg md:text-xl font-bold tracking-tight text-white hidden sm:block">
+                        RanzzDrama
+                    </span>
+                </div>
+                
+                <!-- Desktop Nav Links -->
+                <div class="hidden lg:flex items-center gap-6 text-sm font-medium text-gray-400">
+                    <button onclick="app.navigate('vip')" class="hover:text-yellow-400 transition nav-btn flex items-center gap-1" data-nav="vip">
+                        <i class="ph-fill ph-crown"></i> VIP
+                    </button>
+                    <button onclick="app.navigate('genre')" class="hover:text-white transition nav-btn" data-nav="genre">Genre</button>
+                    <button onclick="app.navigate('history')" class="hover:text-white transition nav-btn" data-nav="history">Riwayat Tontonan</button>
+                </div>
             </div>
 
             <!-- Search Bar -->
-            <div class="flex-1 max-w-lg px-4 hidden md:block ml-auto">
+            <div class="hidden md:block w-full max-w-md ml-auto px-4">
                 <form id="search-form" class="relative" onsubmit="app.handleSearch(event)">
                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                         <i class="ph ph-magnifying-glass text-gray-400"></i>
@@ -93,7 +104,7 @@
             </div>
 
             <!-- Mobile Search Icon -->
-            <button class="md:hidden p-2 text-gray-400 hover:text-white transition" onclick="app.toggleMobileSearch()">
+            <button class="md:hidden p-2 text-gray-400 hover:text-white transition ml-auto" onclick="app.toggleMobileSearch()">
                 <i class="ph ph-magnifying-glass text-2xl"></i>
             </button>
         </div>
@@ -115,18 +126,22 @@
     </main>
 
     <!-- Bottom Navigation (Mobile Only) -->
-    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-darker/80 backdrop-blur-xl border-t border-white/5 z-50 px-8 py-3 flex justify-between items-center pb-safe">
-        <button onclick="app.navigate('home')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition nav-btn active" data-nav="home">
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-darker/80 backdrop-blur-xl border-t border-white/5 z-50 px-4 py-3 flex justify-between items-center pb-safe">
+        <button onclick="app.navigate('home')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition nav-btn active w-1/4" data-nav="home">
             <i class="ph-fill ph-house text-[22px]"></i>
             <span class="text-[10px] font-medium tracking-wide">Beranda</span>
         </button>
-        <button onclick="app.navigate('trending')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition nav-btn" data-nav="trending">
-            <i class="ph-fill ph-trend-up text-[22px]"></i>
-            <span class="text-[10px] font-medium tracking-wide">Tren</span>
+        <button onclick="app.navigate('vip')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-yellow-400 transition nav-btn w-1/4" data-nav="vip">
+            <i class="ph-fill ph-crown text-[22px]"></i>
+            <span class="text-[10px] font-medium tracking-wide">VIP</span>
         </button>
-        <button onclick="app.navigate('latest')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition nav-btn" data-nav="latest">
-            <i class="ph-fill ph-sparkle text-[22px]"></i>
-            <span class="text-[10px] font-medium tracking-wide">Terbaru</span>
+        <button onclick="app.navigate('genre')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition nav-btn w-1/4" data-nav="genre">
+            <i class="ph-fill ph-squares-four text-[22px]"></i>
+            <span class="text-[10px] font-medium tracking-wide">Genre</span>
+        </button>
+        <button onclick="app.navigate('history')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition nav-btn w-1/4" data-nav="history">
+            <i class="ph-fill ph-clock-counter-clockwise text-[22px]"></i>
+            <span class="text-[10px] font-medium tracking-wide">Riwayat</span>
         </button>
     </div>
 
@@ -138,6 +153,28 @@
 
     <!-- Toast Notification -->
     <div id="toast-container" class="fixed top-20 right-4 z-[100] flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- QRIS VIP Modal -->
+    <div id="qris-modal" class="fixed inset-0 bg-darker/90 z-[110] hidden flex-col justify-center items-center backdrop-blur-md p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-panel border border-yellow-500/30 rounded-3xl max-w-sm w-full p-6 md:p-8 flex flex-col items-center text-center transform scale-95 transition-transform duration-300 shadow-[0_0_40px_rgba(234,179,8,0.15)]" id="qris-modal-content">
+            <div class="w-16 h-16 bg-yellow-500/20 rounded-full flex items-center justify-center mb-4">
+                <i class="ph-fill ph-crown text-3xl text-yellow-500"></i>
+            </div>
+            <h3 class="text-xl md:text-2xl font-bold text-white mb-2">Akses VIP Terkunci</h3>
+            <p class="text-gray-400 text-sm mb-6 leading-relaxed">Episode ini adalah episode eksklusif VIP. Mohon dukung server kami agar lebih baik dengan memberikan donasi via QRIS di bawah ini untuk membuka akses.</p>
+            <div class="bg-white p-3 rounded-2xl mb-6 shadow-inner w-full max-w-[200px]">
+                <img src="https://raw.githubusercontent.com/kamdjut-ui/uploader/main/uploads/1774444884166_QRIS_(1).jpeg" alt="QRIS" class="w-full h-auto aspect-square object-cover rounded-xl">
+            </div>
+            <div class="flex flex-col gap-3 w-full">
+                <button onclick="app.confirmQRIS()" class="w-full py-3 rounded-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-darker font-bold transition shadow-lg flex items-center justify-center gap-2">
+                    <i class="ph-fill ph-check-circle text-lg"></i> Saya Sudah Dukung
+                </button>
+                <button onclick="app.closeQRISModal()" class="w-full py-3 rounded-full bg-white/5 hover:bg-white/10 transition font-medium text-gray-300 text-sm">
+                    Batal
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- AI Floating Chat Button & Modal -->
     <div id="ai-chat-wrapper" class="fixed bottom-24 md:bottom-8 right-5 md:right-8 z-50 hidden">
@@ -181,6 +218,7 @@
             random: () => `${API.base}/randomdrama`,
             latest: () => `${API.base}/latest`,
             trending: () => `${API.base}/populersearch`,
+            vip: () => `${API.base}/vip`,
             dubIndoTerbaru: (page=1) => `${API.base}/dubindo?classify=terbaru&page=${page}`,
             dubIndoPopuler: (page=1) => `${API.base}/dubindo?classify=terpopuler&page=${page}`,
             detail: (id) => `${API.base}/detail?bookId=${id}`,
@@ -197,8 +235,10 @@
                 latest: [],
                 trending: [],
                 dubindo: [],
+                vipData: null,
                 currentDrama: null,
-                currentEpisodes: []
+                currentEpisodes: [],
+                pendingVipEpisode: null
             },
             
             init: async function() {
@@ -222,8 +262,10 @@
                 this.closeAIChat();
 
                 if (view === 'home') this.renderHome();
-                else if (view === 'trending') this.renderListView('Sedang Tren', this.data.trending);
+                else if (view === 'vip') this.renderVIPView();
                 else if (view === 'latest') this.renderListView('Rilis Terbaru', this.data.latest);
+                else if (view === 'genre') this.renderStaticPage('Genre Drama', '<div class="text-center py-16"><i class="ph-fill ph-squares-four text-6xl text-gray-600 mb-4"></i><p class="text-lg">Fitur Kategori Genre sedang dalam pengembangan.</p></div>');
+                else if (view === 'history') this.renderHistoryView();
                 else if (view === 'detail') {
                     this.loadDramaDetail(param);
                     document.getElementById('ai-chat-wrapper').classList.remove('hidden');
@@ -243,8 +285,11 @@
 
             updateNavUI: function(view) {
                 document.querySelectorAll('.nav-btn').forEach(btn => {
-                    btn.classList.remove('text-white');
-                    if(btn.dataset.nav === view) btn.classList.add('text-white');
+                    btn.classList.remove('text-white', 'text-yellow-400');
+                    if(btn.dataset.nav === view) {
+                        if(view === 'vip') btn.classList.add('text-yellow-400');
+                        else btn.classList.add('text-white');
+                    }
                 });
             },
 
@@ -263,12 +308,13 @@
             },
 
             loadHomeData: async function() {
-                const [random, foryou, latestData, trendingData, dubPopuler] = await Promise.all([
+                const [random, foryou, latestData, trendingData, dubPopuler, vipData] = await Promise.all([
                     this.fetchData(API.random()),
                     this.fetchData(API.foryou()),
                     this.fetchData(API.latest()),
                     this.fetchData(API.trending()),
-                    this.fetchData(API.dubIndoPopuler(1))
+                    this.fetchData(API.dubIndoPopuler(1)),
+                    this.fetchData(API.vip())
                 ]);
 
                 if(random && Array.isArray(random) && random.length > 0) this.data.hero = random[0];
@@ -276,6 +322,7 @@
                 this.data.latest = Array.isArray(latestData) ? latestData : [];
                 this.data.trending = Array.isArray(trendingData) ? trendingData : [];
                 this.data.dubindo = Array.isArray(dubPopuler) ? dubPopuler : [];
+                this.data.vipData = vipData || null;
             },
 
             loadDramaDetail: async function(bookId) {
@@ -331,10 +378,10 @@
                                 <p class="text-gray-300 text-sm md:text-base line-clamp-2 md:line-clamp-3 mb-6 font-normal">${hero.introduction}</p>
                                 
                                 <div class="flex items-center gap-3">
-                                    <button class="bg-white text-darker hover:bg-gray-200 font-semibold py-2.5 px-6 md:px-8 rounded-full flex items-center gap-2 transition text-sm md:text-base">
+                                    <button onclick="app.navigate('detail', '${hero.bookId}')" class="bg-white text-darker hover:bg-gray-200 font-semibold py-2.5 px-6 md:px-8 rounded-full flex items-center gap-2 transition text-sm md:text-base">
                                         <i class="ph-fill ph-play text-lg"></i> Putar
                                     </button>
-                                    <button class="bg-white/10 backdrop-blur-md hover:bg-white/20 text-white font-semibold py-2.5 px-6 rounded-full flex items-center gap-2 transition text-sm md:text-base">
+                                    <button onclick="app.navigate('detail', '${hero.bookId}')" class="bg-white/10 backdrop-blur-md hover:bg-white/20 text-white font-semibold py-2.5 px-6 rounded-full flex items-center gap-2 transition text-sm md:text-base">
                                         <i class="ph ph-info text-lg"></i> Detail
                                     </button>
                                 </div>
@@ -343,8 +390,20 @@
                     `;
                 }
 
+                // Tambahkan Drama VIP di Beranda Jika Ada Data dengan layout eksklusif
+                let vipRow = '';
+                if(this.data.vipData && this.data.vipData.columnVoList && this.data.vipData.columnVoList.length > 0) {
+                    const firstVipCol = this.data.vipData.columnVoList[0];
+                    vipRow = `
+                        <div class="bg-gradient-to-r from-yellow-500/10 to-transparent p-4 md:p-6 rounded-2xl border border-yellow-500/20 my-2">
+                            ${this.createRow(`<span class="text-yellow-400 flex items-center gap-2"><i class="ph-fill ph-crown"></i> Koleksi VIP - ${firstVipCol.title}</span>`, firstVipCol.bookList)}
+                        </div>
+                    `;
+                }
+
                 html += '<div class="px-5 lg:px-10 py-8 space-y-10 pb-8 md:pb-12">';
                 html += this.createRow('Pilihan Editor', this.data.foryou);
+                html += vipRow;
                 html += this.createRow('Rilis Terbaru', this.data.latest);
                 html += this.createRow('Sedang Tren', this.data.trending);
                 html += this.createRow('Dubbing Indonesia', this.data.dubindo);
@@ -356,16 +415,59 @@
                 main.innerHTML = html;
             },
 
-            renderListView: function(title, items) {
+            renderVIPView: function() {
                 const main = document.getElementById('main-content');
                 let html = `
-                    <div class="px-5 lg:px-10 py-8 pt-10 min-h-screen flex flex-col">
-                        <div class="flex-1">
-                            <div class="flex items-center gap-4 mb-8">
-                                <button onclick="app.navigate('home')" class="p-2.5 bg-white/5 rounded-full hover:bg-white/10 transition text-gray-400 hover:text-white">
-                                    <i class="ph ph-arrow-left text-xl"></i>
+                    <div class="px-5 lg:px-10 py-8 pt-24 min-h-screen flex flex-col">
+                        <div class="flex-1 w-full max-w-[1600px] mx-auto">
+                            <div class="flex items-center gap-4 mb-8 pb-4 border-b border-white/5">
+                                <button onclick="app.navigate('home')" class="p-2.5 bg-white/5 rounded-full hover:bg-white/10 transition text-gray-400 hover:text-white group">
+                                    <i class="ph ph-arrow-left text-xl group-hover:-translate-x-1 transition-transform"></i>
                                 </button>
-                                <h2 class="text-2xl md:text-3xl font-bold tracking-tight">${title}</h2>
+                                <div>
+                                    <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-yellow-400 flex items-center gap-2">
+                                        <i class="ph-fill ph-crown"></i> Koleksi VIP
+                                    </h2>
+                                    <p class="text-sm font-medium text-gray-500 mt-1">Sajian eksklusif khusus pendukung kami</p>
+                                </div>
+                            </div>
+                `;
+
+                if (!this.data.vipData || !this.data.vipData.columnVoList || this.data.vipData.columnVoList.length === 0) {
+                    html += `
+                        <div class="flex flex-col items-center justify-center py-32 text-gray-500">
+                            <i class="ph ph-crown text-6xl mb-4 opacity-50"></i>
+                            <p class="text-base font-medium">Tidak ada drama VIP yang ditemukan.</p>
+                        </div>
+                    `;
+                } else {
+                    html += `<div class="space-y-10 pb-12">`;
+                    this.data.vipData.columnVoList.forEach(col => {
+                        html += this.createRow(`<span class="text-yellow-400 flex items-center gap-2"><i class="ph-fill ph-star"></i> ${col.title}</span>`, col.bookList);
+                    });
+                    html += `</div>`;
+                }
+
+                html += `</div>`; // Close flex-1
+                html += this.renderFooter();
+                html += `</div>`; // Close main wrapper
+                main.innerHTML = html;
+            },
+
+            renderListView: function(title, items) {
+                const main = document.getElementById('main-content');
+                const count = items ? items.length : 0;
+                let html = `
+                    <div class="px-5 lg:px-10 py-8 pt-24 min-h-screen flex flex-col">
+                        <div class="flex-1 w-full max-w-[1600px] mx-auto">
+                            <div class="flex items-center gap-4 mb-8 pb-4 border-b border-white/5">
+                                <button onclick="app.navigate('home')" class="p-2.5 bg-white/5 rounded-full hover:bg-white/10 transition text-gray-400 hover:text-white group">
+                                    <i class="ph ph-arrow-left text-xl group-hover:-translate-x-1 transition-transform"></i>
+                                </button>
+                                <div>
+                                    <h2 class="text-2xl md:text-3xl font-bold tracking-tight">${title}</h2>
+                                    <p class="text-sm font-medium text-gray-500 mt-1">${count} Drama ditemukan</p>
+                                </div>
                             </div>
                 `;
 
@@ -377,9 +479,114 @@
                         </div>
                     `;
                 } else {
-                    html += `<div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-3 md:gap-5 pb-12">`;
+                    html += `<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6 pb-12">`;
                     items.forEach(item => {
-                        html += this.createCard(item);
+                        html += this.createCard(item, true);
+                    });
+                    html += `</div>`;
+                }
+
+                html += `</div>`; // Close flex-1
+                html += this.renderFooter();
+                html += `</div>`; // Close main wrapper
+                main.innerHTML = html;
+            },
+
+            // --- HISTORY LOGIC & VIEW ---
+            getHistory: function() {
+                const hist = localStorage.getItem('ranzz_history');
+                return hist ? JSON.parse(hist) : [];
+            },
+
+            addToHistory: function(drama, episode) {
+                if (!drama || !episode) return;
+                
+                let history = this.getHistory();
+                const cover = drama.coverWap || drama.cover || drama.bookCover;
+                const newItem = {
+                    bookId: drama.bookId,
+                    bookName: drama.bookName,
+                    cover: cover,
+                    chapterIndex: episode.chapterIndex,
+                    chapterName: episode.chapterName,
+                    timestamp: Date.now()
+                };
+
+                // Hapus entri lama untuk drama yang sama agar yang terbaru naik ke atas
+                history = history.filter(item => item.bookId !== drama.bookId);
+                
+                // Tambahkan ke awal array
+                history.unshift(newItem);
+
+                // Batasi riwayat maksimal 50 item
+                if (history.length > 50) history.pop();
+
+                localStorage.setItem('ranzz_history', JSON.stringify(history));
+            },
+
+            clearHistory: function() {
+                localStorage.removeItem('ranzz_history');
+                this.renderHistoryView();
+                this.showToast('Riwayat tontonan berhasil dihapus', 'info');
+            },
+
+            renderHistoryView: function() {
+                const main = document.getElementById('main-content');
+                const history = this.getHistory();
+                
+                let html = `
+                    <div class="px-5 lg:px-10 py-8 pt-24 min-h-screen flex flex-col">
+                        <div class="flex-1 w-full max-w-[1600px] mx-auto">
+                            <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
+                                <div class="flex items-center gap-4">
+                                    <button onclick="app.navigate('home')" class="p-2.5 bg-white/5 rounded-full hover:bg-white/10 transition text-gray-400 hover:text-white group">
+                                        <i class="ph ph-arrow-left text-xl group-hover:-translate-x-1 transition-transform"></i>
+                                    </button>
+                                    <div>
+                                        <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-white flex items-center gap-2">
+                                            <i class="ph-fill ph-clock-counter-clockwise text-primary"></i> Riwayat Tontonan
+                                        </h2>
+                                        <p class="text-sm font-medium text-gray-500 mt-1">${history.length} Drama ditonton</p>
+                                    </div>
+                                </div>
+                                ${history.length > 0 ? `
+                                <button onclick="if(confirm('Apakah Anda yakin ingin menghapus semua riwayat tontonan?')) app.clearHistory()" class="text-sm font-medium text-red-400 hover:text-white hover:bg-red-500/20 transition flex items-center gap-1.5 bg-white/5 px-4 py-2 rounded-full">
+                                    <i class="ph ph-trash text-lg"></i> <span class="hidden sm:inline">Hapus Semua</span>
+                                </button>
+                                ` : ''}
+                            </div>
+                `;
+
+                if (history.length === 0) {
+                    html += `
+                        <div class="flex flex-col items-center justify-center py-32 text-gray-500">
+                            <i class="ph-fill ph-clock-counter-clockwise text-6xl mb-4 opacity-50"></i>
+                            <p class="text-base font-medium">Belum ada riwayat tontonan saat ini.</p>
+                        </div>
+                    `;
+                } else {
+                    html += `<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6 pb-12">`;
+                    history.forEach(item => {
+                        html += `
+                            <div class="w-full group cursor-pointer" onclick="app.navigate('detail', '${item.bookId}')">
+                                <div class="relative w-full aspect-portrait rounded-xl overflow-hidden bg-white/5">
+                                    <img src="${item.cover}" alt="${item.bookName}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" loading="lazy">
+                                    <div class="absolute inset-0 bg-black/40 opacity-100 transition-opacity duration-300"></div>
+                                    
+                                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <div class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center">
+                                            <i class="ph-fill ph-play text-white text-lg"></i>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="absolute bottom-2 left-2 bg-primary/90 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm border border-white/10">
+                                        Terakhir: ${item.chapterName}
+                                    </div>
+                                </div>
+                                <h3 class="mt-2.5 text-[13px] md:text-sm font-medium text-white/90 group-hover:text-primary transition-colors truncate">${item.bookName}</h3>
+                                <p class="text-[11px] text-gray-500 mt-0.5">Lanjutkan menonton</p>
+                            </div>
+                        `;
                     });
                     html += `</div>`;
                 }
@@ -485,6 +692,11 @@
                 const prevEp = allEpisodes.find(ep => ep.chapterIndex === episodeIndex - 1);
                 const nextEp = allEpisodes.find(ep => ep.chapterIndex === episodeIndex + 1);
 
+                // Simpan ke riwayat tontonan
+                if (this.data.currentDrama && episode) {
+                    this.addToHistory(this.data.currentDrama, episode);
+                }
+
                 let html = `
                     <div class="w-full min-h-screen bg-black flex flex-col">
                         <!-- Top Bar inside player -->
@@ -550,7 +762,7 @@
             renderStaticPage: function(title, contentHtml) {
                 const main = document.getElementById('main-content');
                 let html = `
-                    <div class="px-5 lg:px-10 py-8 pt-10 min-h-screen flex flex-col items-center">
+                    <div class="px-5 lg:px-10 py-8 pt-24 min-h-screen flex flex-col items-center">
                         <div class="w-full max-w-4xl flex-1 pb-16">
                             <div class="flex items-center gap-4 mb-8">
                                 <button onclick="app.navigate('home')" class="p-2.5 bg-white/5 rounded-full hover:bg-white/10 transition text-gray-400 hover:text-white">
@@ -673,32 +885,37 @@
 
             createRow: function(title, items) {
                 if(!items || items.length === 0) return '';
-                const cardsHtml = items.map(item => this.createCard(item)).join('');
+                const cardsHtml = items.map(item => this.createCard(item, false)).join('');
+                
+                // Menghilangkan tag HTML dan karakter non-alfanumerik untuk ID yang valid
+                const safeId = "row-" + title.replace(/<[^>]*>?/gm, '').replace(/[^a-zA-Z0-9]/g, '');
                 
                 return `
                     <div class="w-full">
                         <div class="flex items-center justify-between mb-4">
-                            <h2 class="text-lg md:text-xl font-semibold tracking-tight text-white/95">${title}</h2>
+                            <h2 class="flex items-center gap-2 text-lg md:text-xl font-semibold tracking-tight text-white/95">${title}</h2>
                             <div class="flex gap-2 hidden md:flex">
-                                <button class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition text-gray-400 hover:text-white" onclick="document.getElementById('row-${title.replace(/\s+/g, '')}').scrollBy({left: -300, behavior: 'smooth'})">
+                                <button class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition text-gray-400 hover:text-white" onclick="document.getElementById('${safeId}').scrollBy({left: -300, behavior: 'smooth'})">
                                     <i class="ph ph-caret-left"></i>
                                 </button>
-                                <button class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition text-gray-400 hover:text-white" onclick="document.getElementById('row-${title.replace(/\s+/g, '')}').scrollBy({left: 300, behavior: 'smooth'})">
+                                <button class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition text-gray-400 hover:text-white" onclick="document.getElementById('${safeId}').scrollBy({left: 300, behavior: 'smooth'})">
                                     <i class="ph ph-caret-right"></i>
                                 </button>
                             </div>
                         </div>
-                        <div id="row-${title.replace(/\s+/g, '')}" class="flex gap-3 md:gap-4 overflow-x-auto hide-scroll pb-4 snap-x">
+                        <div id="${safeId}" class="flex gap-3 md:gap-4 overflow-x-auto hide-scroll pb-4 snap-x">
                             ${cardsHtml}
                         </div>
                     </div>
                 `;
             },
 
-            createCard: function(item) {
+            createCard: function(item, isGrid = false) {
                 const cover = item.coverWap || item.cover || item.bookCover;
+                const widthClass = isGrid ? 'w-full' : 'flex-shrink-0 w-28 md:w-40 lg:w-48 snap-start';
+                
                 return `
-                    <div class="flex-shrink-0 w-28 md:w-40 lg:w-48 snap-start group cursor-pointer" onclick="app.navigate('detail', '${item.bookId}')">
+                    <div class="${widthClass} group cursor-pointer" onclick="app.navigate('detail', '${item.bookId}')">
                         <div class="relative w-full aspect-portrait rounded-xl overflow-hidden bg-white/5">
                             <img src="${cover}" alt="${item.bookName}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" loading="lazy">
                             <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -719,7 +936,58 @@
 
             // --- VIDEO PLAYBACK LOGIC ---
             
+            showQRISModal: function() {
+                const modal = document.getElementById('qris-modal');
+                const content = document.getElementById('qris-modal-content');
+                modal.classList.remove('hidden');
+                // Trigger reflow for transition
+                void modal.offsetWidth;
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+            },
+
+            closeQRISModal: function() {
+                const modal = document.getElementById('qris-modal');
+                const content = document.getElementById('qris-modal-content');
+                modal.classList.add('opacity-0');
+                content.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    this.data.pendingVipEpisode = null; // Clear pending if cancelled
+                }, 300);
+            },
+
+            confirmQRIS: function() {
+                this.closeQRISModal();
+                this.showToast('Terima kasih atas dukungannya! Menyiapkan episode VIP...', 'info');
+                
+                // Simulate unlocking and playing the VIP episode
+                if(this.data.pendingVipEpisode !== null) {
+                    const epIndex = this.data.pendingVipEpisode.index;
+                    const isFirst = this.data.pendingVipEpisode.isFirst;
+                    this.data.pendingVipEpisode = null;
+                    
+                    setTimeout(() => {
+                        this.executePlayEpisode(epIndex, isFirst);
+                    }, 1000);
+                }
+            },
+
             playEpisode: function(episodeIndex, isFirstLoad = false) {
+                // Cari data episode saat ini
+                const episode = this.data.currentEpisodes.find(ep => ep.chapterIndex === episodeIndex);
+                
+                // Cek apakah episode berbayar / VIP
+                if (episode && (episode.isCharge === 1 || episode.isCharge === true)) {
+                    this.data.pendingVipEpisode = { index: episodeIndex, isFirst: isFirstLoad };
+                    this.showQRISModal();
+                    return; // Hentikan playback, tunggu donasi QRIS
+                }
+
+                this.executePlayEpisode(episodeIndex, isFirstLoad);
+            },
+
+            executePlayEpisode: function(episodeIndex, isFirstLoad = false) {
                 if(isFirstLoad) {
                     this.navigate('player', { episode: episodeIndex, episodesData: this.data.currentEpisodes });
                 } else {
