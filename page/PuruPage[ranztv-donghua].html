@@ -471,13 +471,13 @@
                     finally { this.samehadakuLoading = false; }
                 },
                 async fetchGenres() {
-                    const res = await fetch('https://puruboy-api.vercel.app/api/anime/anichin/genres');
+                    const res = await fetch('https://apii.ranzzajaah.my.id/api/anime/anichin/genres');
                     const data = await res.json();
                     this.allGenres = data.result;
                 },
                 async fetchByGenre(slug, page) {
                     this.searchTitle = `Genre: ${slug.replace(/-/g, ' ')}`;
-                    const res = await fetch(`https://puruboy-api.vercel.app/api/anime/anichin/genre?slug=${slug}&page=${page}`);
+                    const res = await fetch(`https://apii.ranzzajaah.my.id/api/anime/anichin/genre?slug=${slug}&page=${page}`);
                     const data = await res.json();
                     this.listData = data.result.data;
                     this.hasNextPage = data.result.hasNextPage;
