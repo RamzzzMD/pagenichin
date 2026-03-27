@@ -1,0 +1,994 @@
+<!-- META {"title":"NeoDrama China","desc":"Nonton Dracin Dari DramaBox dilengkapi dengan AI ","date":"2026-03-23T02:25:09.121Z"} -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DramaFlix - Neo Asia Drama</title>
+    
+    <!-- Fonts: Orbitron (Futuristic Headings) & Poppins (Body) -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons: Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        neo: ['Orbitron', 'sans-serif'],
+                    },
+                    colors: {
+                        darkBg: '#050507',
+                        darkCard: '#0f0f16',
+                        neonCyan: '#00f0ff',
+                        neonPink: '#ff003c',
+                        neonPurple: '#a100ff',
+                        glassBg: 'rgba(15, 15, 22, 0.6)',
+                    },
+                    backgroundImage: {
+                        'hero-gradient': 'linear-gradient(to top, #050507 0%, transparent 100%)',
+                        'hero-gradient-side': 'linear-gradient(to right, #050507 0%, transparent 100%)',
+                        'neo-gradient': 'linear-gradient(45deg, #ff003c, #a100ff, #00f0ff)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base Styles & Custom Scrollbar */
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: #050507;
+            color: #ffffff;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Hide scrollbar for carousels but allow smooth scrolling */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Custom Scrollbar for whole page */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050507; }
+        ::-webkit-scrollbar-thumb { background: #a100ff; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00f0ff; }
+
+        /* Animations */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Neo Card Effects */
+        .drama-card {
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .drama-card:hover {
+            transform: scale(1.03) translateY(-4px);
+            z-index: 10;
+        }
+        .drama-card:hover .neo-border {
+            box-shadow: 0 0 15px #00f0ff, inset 0 0 10px #00f0ff;
+            border-color: #00f0ff;
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(15, 15, 22, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Line Clamp */
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+        /* Neo Loader */
+        .loader {
+            border: 3px solid transparent;
+            border-top-color: #00f0ff;
+            border-right-color: #ff003c;
+            border-bottom-color: #a100ff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.8));
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Neo Text Glow */
+        .text-glow-cyan { text-shadow: 0 0 8px rgba(0, 240, 255, 0.8); }
+        .text-glow-pink { text-shadow: 0 0 8px rgba(255, 0, 60, 0.8); }
+        
+        /* Nav Active State */
+        .nav-btn.active {
+            color: #00f0ff;
+            text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-darkBg text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 transition-all duration-300 bg-gradient-to-b from-black/90 to-transparent border-b border-transparent" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0 cursor-pointer flex items-center gap-2" onclick="app.navigate('home')">
+                    <i class="ph-fill ph-play-circle text-neonCyan text-2xl md:text-3xl drop-shadow-[0_0_8px_rgba(0,240,255,0.8)]"></i>
+                    <span class="text-xl md:text-2xl font-neo font-bold text-transparent bg-clip-text bg-neo-gradient tracking-wider">DRAMA<span class="text-white">FLIX</span></span>
+                </div>
+                <div class="flex space-x-1 md:space-x-6">
+                    <button id="nav-home" onclick="app.navigate('home')" class="nav-btn active text-gray-400 hover:text-neonCyan px-2 md:px-3 py-2 rounded-md text-xs md:text-sm font-medium transition flex flex-col md:flex-row items-center gap-1 md:gap-2">
+                        <i class="ph ph-house text-xl md:text-xl"></i> <span class="hidden md:inline">Beranda</span>
+                    </button>
+                    <button id="nav-vip" onclick="app.navigate('vip')" class="nav-btn text-gray-400 hover:text-neonPink px-2 md:px-3 py-2 rounded-md text-xs md:text-sm font-medium transition flex flex-col md:flex-row items-center gap-1 md:gap-2">
+                        <i class="ph ph-crown text-xl md:text-xl"></i> <span class="hidden md:inline">VIP Area</span>
+                    </button>
+                    <button id="nav-search" onclick="app.navigate('search')" class="nav-btn text-gray-400 hover:text-neonPurple px-2 md:px-3 py-2 rounded-md text-xs md:text-sm font-medium transition flex flex-col md:flex-row items-center gap-1 md:gap-2">
+                        <i class="ph ph-magnifying-glass text-xl md:text-xl"></i> <span class="hidden md:inline">Cari</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Global Loader -->
+    <div id="global-loader" class="fixed inset-0 z-[100] bg-darkBg/95 backdrop-blur-sm flex flex-col items-center justify-center hidden">
+        <div class="loader mb-6"></div>
+        <p class="text-neonCyan font-neo font-bold tracking-[0.2em] animate-pulse">MEMUAT_DATA...</p>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <main id="app-container" class="min-h-screen pb-20">
+        
+        <!-- ==================== HOME VIEW ==================== -->
+        <div id="view-home" class="view-section">
+            <!-- Hero Banner -->
+            <div id="hero-banner" class="relative w-full h-[60vh] md:h-[85vh] bg-darkCard overflow-hidden border-b border-white/5">
+                <div class="absolute inset-0 bg-black/50 animate-pulse flex items-center justify-center" id="hero-skeleton">
+                    <div class="loader"></div>
+                </div>
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- Content Container -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 md:-mt-24 relative z-10 space-y-10 md:space-y-12 pb-10">
+                
+                <!-- Trending Carousel -->
+                <div class="fade-up">
+                    <h2 class="text-base md:text-xl font-neo font-bold mb-4 flex items-center gap-2 text-white">
+                        <i class="ph-fill ph-fire text-neonPink drop-shadow-[0_0_5px_rgba(255,0,60,0.8)]"></i> TRENDING SEKARANG
+                    </h2>
+                    <div class="relative group">
+                        <div id="carousel-trending" class="flex gap-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory pb-4">
+                            <!-- Cards Injected Here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rekomendasi Carousel -->
+                <div class="fade-up">
+                    <h2 class="text-base md:text-xl font-neo font-bold mb-4 flex items-center gap-2 text-white">
+                        <i class="ph-fill ph-crosshair text-neonCyan drop-shadow-[0_0_5px_rgba(0,240,255,0.8)]"></i> REKOMENDASI SISTEM
+                    </h2>
+                    <div id="carousel-foryou" class="flex gap-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory pb-4"></div>
+                </div>
+
+                <!-- Rilis Terbaru Carousel -->
+                <div class="fade-up">
+                    <h2 class="text-base md:text-xl font-neo font-bold mb-4 flex items-center gap-2 text-white">
+                        <i class="ph-fill ph-clock-countdown text-neonPurple drop-shadow-[0_0_5px_rgba(161,0,255,0.8)]"></i> RILIS TERBARU
+                    </h2>
+                    <div id="carousel-latest" class="flex gap-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory pb-4"></div>
+                </div>
+
+                <!-- Dubbing Indo Carousel -->
+                <div class="fade-up">
+                    <h2 class="text-base md:text-xl font-neo font-bold mb-4 flex items-center gap-2 text-white">
+                        <i class="ph-fill ph-microphone-stage text-green-400 drop-shadow-[0_0_5px_rgba(74,222,128,0.8)]"></i> DUBBING INDONESIA
+                    </h2>
+                    <div id="carousel-dubindo" class="flex gap-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory pb-4"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ==================== VIP VIEW ==================== -->
+        <div id="view-vip" class="view-section hidden pt-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10 md:mb-12 fade-up">
+                <i class="ph-fill ph-crown text-5xl md:text-6xl text-neonPink drop-shadow-[0_0_15px_rgba(255,0,60,0.8)] mb-4 inline-block"></i>
+                <h1 class="text-2xl md:text-5xl font-neo font-bold mb-3 text-glow-pink">AREA VIP</h1>
+                <p class="text-gray-400 text-sm md:text-base max-w-2xl mx-auto px-2">Akses eksklusif koleksi premium beresolusi tinggi dan seri pilihan teratas yang hanya tersedia untuk pengguna VIP.</p>
+            </div>
+            
+            <div id="vip-content" class="space-y-10 md:space-y-12">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+
+        <!-- ==================== SEARCH VIEW ==================== -->
+        <div id="view-search" class="view-section hidden pt-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="fade-up">
+                <div class="relative max-w-2xl mx-auto mb-8 md:mb-10">
+                    <input type="text" id="searchInput" placeholder="Masukkan judul atau kata kunci..." 
+                        class="w-full bg-darkCard/50 backdrop-blur-md border border-neonPurple/30 rounded-lg py-3 md:py-4 px-5 pl-12 md:pl-14 text-sm md:text-base text-white focus:outline-none focus:border-neonCyan focus:ring-1 focus:ring-neonCyan transition-all shadow-[0_0_15px_rgba(161,0,255,0.1)] font-neo">
+                    <i class="ph ph-terminal-window absolute left-4 md:left-5 top-1/2 transform -translate-y-1/2 text-neonCyan text-xl md:text-2xl"></i>
+                    <button onclick="app.executeSearch()" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-neonPurple hover:bg-purple-700 text-white px-4 md:px-6 py-1.5 md:py-2 rounded text-xs md:text-sm font-neo font-bold transition shadow-[0_0_10px_rgba(161,0,255,0.5)]">
+                        CARI
+                    </button>
+                </div>
+
+                <!-- Popular Search Tags -->
+                <div id="popular-searches-container" class="mb-10 text-center">
+                    <h3 class="text-[10px] md:text-xs text-neonCyan mb-4 font-neo tracking-[0.15em] opacity-80">> PENCARIAN_POPULER</h3>
+                    <div id="popular-tags" class="flex flex-wrap justify-center gap-2 md:gap-3">
+                        <!-- Tags Injected Here -->
+                    </div>
+                </div>
+
+                <!-- Search Results -->
+                <h2 id="search-title" class="text-lg md:text-xl font-neo font-bold mb-6 hidden text-glow-cyan">> HASIL PENCARIAN</h2>
+                <div id="search-results" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6">
+                    <!-- Cards Injected Here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== DETAIL VIEW ==================== -->
+        <div id="view-detail" class="view-section hidden">
+            <!-- Injected via JS -->
+            <div id="detail-container"></div>
+        </div>
+
+        <!-- ==================== PLAYER VIEW ==================== -->
+        <div id="view-player" class="view-section hidden bg-darkBg min-h-screen pt-16">
+            <div class="max-w-6xl mx-auto">
+                <!-- Video Player Container -->
+                <div class="relative w-full aspect-video bg-black shadow-[0_0_30px_rgba(0,240,255,0.15)] border-b-2 border-neonCyan">
+                    <div id="player-overlay" class="absolute inset-0 z-10 bg-darkBg/90 backdrop-blur-sm flex flex-col items-center justify-center">
+                        <div class="loader mb-4 scale-75 md:scale-100"></div>
+                        <p id="player-status" class="text-neonCyan font-neo tracking-wider text-xs md:text-sm">MENYIAPKAN_VIDEO...</p>
+                    </div>
+                    <video id="main-video-player" class="w-full h-full object-contain" controls playsinline></video>
+                </div>
+                
+                <div class="p-4 md:p-8 glass-panel mt-4 rounded-xl mx-3 md:mx-4 lg:mx-0 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="flex items-start md:items-center gap-3 md:gap-4">
+                        <button onclick="app.navigate('detail', state.currentDramaId)" class="shrink-0 text-neonCyan hover:text-neonPink transition-all duration-300 focus:outline-none transform hover:-translate-x-1" title="Kembali ke Detail">
+                            <i class="ph-fill ph-arrow-circle-left text-3xl md:text-4xl drop-shadow-[0_0_8px_rgba(0,240,255,0.8)] hover:drop-shadow-[0_0_15px_rgba(255,0,60,0.8)]"></i>
+                        </button>
+                        <div>
+                            <h1 id="player-title" class="text-lg md:text-3xl font-neo font-bold mb-1 line-clamp-1 text-glow-cyan">Judul Drama</h1>
+                            <p id="player-ep-title" class="text-neonPink text-sm md:text-base font-medium flex items-center gap-2">
+                                <i class="ph-fill ph-monitor-play"></i> Episode --
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <button onclick="ui.toggleEpisodeDrawer()" class="w-full md:w-auto self-start md:self-auto glass-panel border border-neonCyan/50 text-neonCyan hover:bg-neonCyan hover:text-black px-4 md:px-5 py-2.5 md:py-3 rounded-sm flex items-center justify-center gap-2 font-neo font-bold transition shadow-[0_0_10px_rgba(0,240,255,0.2)] text-sm md:text-base">
+                        <i class="ph-bold ph-list text-lg md:text-xl"></i>
+                        <span>DAFTAR EPISODE</span>
+                    </button>
+                </div>
+                
+                <!-- Episode Sidebar Drawer -->
+                <div id="episode-drawer-overlay" onclick="ui.toggleEpisodeDrawer()" class="fixed inset-0 z-[55] bg-black/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300"></div>
+                <div id="episode-drawer" class="fixed inset-y-0 right-0 z-[60] w-[80vw] sm:w-80 md:w-80 bg-darkBg/95 backdrop-blur-xl border-l-2 border-neonCyan transform translate-x-full transition-transform duration-300 flex flex-col shadow-[-10px_0_30px_rgba(0,240,255,0.15)]">
+                    <div class="p-4 md:p-5 border-b border-white/10 flex items-center justify-between">
+                        <h3 class="font-neo text-sm md:text-base tracking-widest text-neonCyan">> PILIH_EPISODE</h3>
+                        <button onclick="ui.toggleEpisodeDrawer()" class="text-gray-400 hover:text-neonPink transition">
+                            <i class="ph-bold ph-x text-xl md:text-2xl drop-shadow-[0_0_5px_rgba(255,0,60,0.8)]"></i>
+                        </button>
+                    </div>
+                    <div id="episode-list-drawer" class="flex-1 overflow-y-auto p-3 md:p-4 flex flex-col gap-2 hide-scrollbar">
+                        <!-- Episode buttons injected here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== ABOUT VIEW ==================== -->
+        <div id="view-about" class="view-section hidden pt-24 pb-12 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[70vh]">
+            <div class="glass-panel p-6 md:p-10 rounded-2xl border-l-[3px] md:border-l-4 border-neonCyan fade-up shadow-[0_0_30px_rgba(0,240,255,0.1)] relative overflow-hidden">
+                <i class="ph-fill ph-info absolute -bottom-10 -right-10 text-9xl text-neonCyan/10 rotate-12"></i>
+                <h1 class="text-2xl md:text-4xl font-neo font-bold mb-6 text-glow-cyan uppercase flex items-center gap-3">
+                    <i class="ph-bold ph-terminal-window"></i> TENTANG SISTEM
+                </h1>
+                <div class="space-y-4 text-sm md:text-base text-gray-300 leading-relaxed font-light">
+                    <p>
+                        <strong class="text-neonCyan font-neo tracking-wider">NEO DRAMAFLIX</strong> adalah platform transmisi data multimedia kelas mutakhir yang didesain khusus untuk menyajikan pustaka drama Asia dalam kecepatan cahaya.
+                    </p>
+                    <p>
+                        Sistem ini ditenagai antarmuka <em class="text-white">Glassmorphism Cyberpunk</em> yang responsif terhadap integrasi perangkat keras komunikasi baik mobile maupun desktop. Seluruh lapisan protokol penyiaran video dienkripsi penuh untuk memastikan stabilitas tertinggi tanpa batas area.
+                    </p>
+                    <div class="mt-8 pt-6 border-t border-white/10">
+                        <h3 class="font-neo text-neonPink tracking-widest mb-2">> KREATOR_UTAMA</h3>
+                        <p class="text-white font-bold text-lg flex items-center gap-2">
+                            <i class="ph-fill ph-user-circle text-neonPink drop-shadow-[0_0_5px_rgba(255,0,60,0.8)]"></i> RANZZ
+                        </p>
+                        <p class="text-xs text-gray-500 mt-1">Arsitek Sistem & Desainer Antarmuka</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== CONTACT VIEW ==================== -->
+        <div id="view-contact" class="view-section hidden pt-24 pb-12 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[70vh]">
+            <div class="glass-panel p-6 md:p-10 rounded-2xl border-l-[3px] md:border-l-4 border-neonPink fade-up shadow-[0_0_30px_rgba(255,0,60,0.1)] relative overflow-hidden">
+                <i class="ph-fill ph-envelope-simple absolute -bottom-10 -right-10 text-9xl text-neonPink/10 -rotate-12"></i>
+                <h1 class="text-2xl md:text-4xl font-neo font-bold mb-6 text-glow-pink uppercase flex items-center gap-3">
+                    <i class="ph-bold ph-broadcast"></i> JALUR KOMUNIKASI
+                </h1>
+                <p class="text-sm md:text-base text-gray-300 mb-8 font-light">
+                    Sistem komunikasi terbuka. Silakan hubungi kreator melalui protokol di bawah ini untuk pelaporan anomali (bug), kerja sama, atau permintaan pembaruan modul data.
+                </p>
+                <div class="flex flex-col gap-4">
+                    <a href="mailto:admin@ranzz.com" class="glass-panel p-4 rounded-lg flex items-center gap-4 hover:border-neonCyan hover:shadow-[0_0_15px_rgba(0,240,255,0.2)] transition-all group">
+                        <div class="bg-neonCyan/20 p-3 rounded-full text-neonCyan group-hover:bg-neonCyan group-hover:text-black transition-colors">
+                            <i class="ph-fill ph-envelope-simple text-xl md:text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-neo text-xs text-gray-400">> PROTOKOL_EMAIL</h4>
+                            <p class="text-white font-medium text-sm md:text-base">admin@ranzz.com</p>
+                        </div>
+                    </a>
+                    <a href="#" class="glass-panel p-4 rounded-lg flex items-center gap-4 hover:border-neonPurple hover:shadow-[0_0_15px_rgba(161,0,255,0.2)] transition-all group">
+                        <div class="bg-neonPurple/20 p-3 rounded-full text-neonPurple group-hover:bg-neonPurple group-hover:text-white transition-colors">
+                            <i class="ph-fill ph-github-logo text-xl md:text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-neo text-xs text-gray-400">> REPOSITORI_GITHUB</h4>
+                            <p class="text-white font-medium text-sm md:text-base">github.com/ranzz</p>
+                        </div>
+                    </a>
+                    <a href="#" class="glass-panel p-4 rounded-lg flex items-center gap-4 hover:border-neonPink hover:shadow-[0_0_15px_rgba(255,0,60,0.2)] transition-all group">
+                        <div class="bg-neonPink/20 p-3 rounded-full text-neonPink group-hover:bg-neonPink group-hover:text-white transition-colors">
+                            <i class="ph-fill ph-instagram-logo text-xl md:text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-neo text-xs text-gray-400">> JARINGAN_INSTAGRAM</h4>
+                            <p class="text-white font-medium text-sm md:text-base">@ranzz.official</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ==================== GEMINI AI CHAT WIDGET ==================== -->
+    <button onclick="geminiBot.toggle()" class="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50 bg-neonCyan text-black p-3.5 md:p-4 rounded-full shadow-[0_0_20px_rgba(0,240,255,0.6)] hover:scale-110 hover:bg-white transition-all duration-300">
+        <i class="ph-bold ph-robot text-2xl md:text-3xl"></i>
+    </button>
+
+    <div id="gemini-chat-window" class="fixed bottom-20 right-4 md:bottom-24 md:right-8 z-[100] w-[90vw] md:w-96 glass-panel border border-neonCyan rounded-xl hidden flex-col shadow-[0_0_30px_rgba(0,240,255,0.3)] overflow-hidden transition-all">
+        <!-- Chat Header -->
+        <div class="bg-gradient-to-r from-neonCyan/30 to-neonPurple/30 border-b border-neonCyan p-3 md:p-4 flex justify-between items-center backdrop-blur-lg">
+            <span class="font-neo font-bold text-neonCyan text-sm flex items-center gap-2 drop-shadow-[0_0_5px_rgba(0,240,255,0.8)]">
+                <i class="ph-bold ph-robot"></i> ASISTEN_NEO
+            </span>
+            <button onclick="geminiBot.toggle()" class="text-neonCyan hover:text-neonPink transition-colors">
+                <i class="ph-bold ph-x text-xl"></i>
+            </button>
+        </div>
+        
+        <!-- Chat History -->
+        <div id="gemini-chat-history" class="h-64 md:h-80 overflow-y-auto p-4 flex flex-col gap-3 hide-scrollbar text-sm bg-darkBg/90">
+            <div class="text-gray-300 bg-darkCard p-3 rounded-lg border border-white/10 self-start max-w-[85%] leading-relaxed shadow-sm">
+                Halo! Saya Gemini, Asisten Sistem NEO. Ada yang bisa saya bantu tentang Drama atau hal lainnya?
+            </div>
+        </div>
+        
+        <!-- Chat Input -->
+        <div class="p-3 bg-darkBg/95 border-t border-neonCyan/30 flex gap-2">
+            <input type="text" id="gemini-input" placeholder="Tanya sistem..." 
+                class="flex-1 bg-darkCard border border-white/20 rounded-md p-2.5 text-sm text-white focus:outline-none focus:border-neonCyan focus:shadow-[0_0_10px_rgba(0,240,255,0.2)] transition-all font-sans" 
+                onkeypress="if(event.key === 'Enter') geminiBot.sendMessage()">
+            <button onclick="geminiBot.sendMessage()" class="bg-neonCyan text-black px-4 py-2 rounded-md font-bold hover:bg-white hover:shadow-[0_0_15px_rgba(0,240,255,0.6)] transition-all">
+                <i class="ph-bold ph-paper-plane-right text-lg"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="glass-panel mt-10 py-8 text-center text-gray-500 text-[10px] md:text-xs font-neo tracking-widest border-t border-white/5 relative z-10 flex flex-col items-center">
+        <div class="flex items-center gap-6 mb-5 text-gray-400">
+            <button onclick="app.navigate('about')" class="hover:text-neonCyan transition-all duration-300 hover:tracking-[0.2em] font-bold">> TENTANG</button>
+            <span class="text-white/20">|</span>
+            <button onclick="app.navigate('contact')" class="hover:text-neonPink transition-all duration-300 hover:tracking-[0.2em] font-bold">> KONTAK</button>
+        </div>
+        <p>SISTEM &copy; 2026 NEO DRAMAFLIX // KREATOR: RANZZ</p>
+    </footer>
+
+    <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+    <script>
+        /**
+         * 1. CONFIGURATION & STATE
+         */
+        const CONFIG = {
+            BASE_URL: 'https://api.sansekai.my.id/api/dramabox',
+            IMG_FALLBACK: 'https://via.placeholder.com/400x600/0f0f16/00f0ff?text=DATA+GAMBAR+KOSONG'
+        };
+
+        const state = {
+            currentView: 'home',
+            currentDramaId: null,
+            episodesCache: []
+        };
+
+        /**
+         * 2. DATA SERVICE 
+         */
+        const dataService = {
+            async fetch(endpoint) {
+                try {
+                    const response = await fetch(`${CONFIG.BASE_URL}${endpoint}`);
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    return await response.json();
+                } catch (error) {
+                    console.error('Data Fetch Error:', error);
+                    return null;
+                }
+            },
+            
+            getForYou: () => dataService.fetch('/foryou?page=1'),
+            getTrending: () => dataService.fetch('/trending'),
+            getLatest: () => dataService.fetch('/latest'),
+            getDubIndo: () => dataService.fetch('/dubindo?classify=terbaru&page=1'),
+            getRandom: () => dataService.fetch('/randomdrama'),
+            getVip: () => dataService.fetch('/vip'), 
+            getPopularSearch: () => dataService.fetch('/populersearch'),
+            searchDrama: (query) => dataService.fetch(`/search?query=${encodeURIComponent(query)}`),
+            getDetail: (id) => dataService.fetch(`/detail?bookId=${id}`),
+            getEpisodes: (id) => dataService.fetch(`/allepisode?bookId=${id}`),
+            decryptVideo: (url) => dataService.fetch(`/decrypt?url=${encodeURIComponent(url)}`)
+        };
+
+        /**
+         * 3. UI/UX UTILITIES
+         */
+        const ui = {
+            showLoader: () => document.getElementById('global-loader').classList.remove('hidden'),
+            hideLoader: () => document.getElementById('global-loader').classList.add('hidden'),
+            
+            handleImgError: (img) => { img.src = CONFIG.IMG_FALLBACK; },
+
+            initObserver: () => {
+                const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+                const observer = new IntersectionObserver((entries, obs) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            obs.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                document.querySelectorAll('.fade-up:not(.visible)').forEach(el => {
+                    observer.observe(el);
+                });
+            },
+
+            initNavbar: () => {
+                const nav = document.getElementById('navbar');
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 30) {
+                        nav.classList.add('glass-panel', 'border-white/10');
+                        nav.classList.remove('border-transparent', 'bg-gradient-to-b', 'from-black/90', 'to-transparent');
+                    } else {
+                        nav.classList.remove('glass-panel', 'border-white/10');
+                        nav.classList.add('border-transparent', 'bg-gradient-to-b', 'from-black/90', 'to-transparent');
+                    }
+                });
+            },
+
+            updateNavState: (viewId) => {
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.classList.remove('active', 'text-neonCyan', 'text-neonPink', 'text-neonPurple');
+                    btn.classList.add('text-gray-400');
+                });
+                const activeBtn = document.getElementById(`nav-${viewId}`);
+                if (activeBtn) {
+                    activeBtn.classList.add('active');
+                    activeBtn.classList.remove('text-gray-400');
+                    if(viewId === 'vip') activeBtn.classList.add('text-neonPink');
+                    else if(viewId === 'search') activeBtn.classList.add('text-neonPurple');
+                    else activeBtn.classList.add('text-neonCyan');
+                }
+            },
+
+            toggleEpisodeDrawer: () => {
+                const drawer = document.getElementById('episode-drawer');
+                const overlay = document.getElementById('episode-drawer-overlay');
+                if (drawer.classList.contains('translate-x-full')) {
+                    overlay.classList.remove('hidden');
+                    requestAnimationFrame(() => {
+                        overlay.classList.remove('opacity-0');
+                        drawer.classList.remove('translate-x-full');
+                    });
+                } else {
+                    overlay.classList.add('opacity-0');
+                    drawer.classList.add('translate-x-full');
+                    setTimeout(() => overlay.classList.add('hidden'), 300);
+                }
+            },
+
+            createCardHTML: (drama) => {
+                const img = drama.coverWap || drama.cover || drama.bookCover || CONFIG.IMG_FALLBACK;
+                const optImg = img.includes('?') ? `${img}&image_process=resize,w_300` : img;
+                
+                return `
+                    <div class="drama-card flex-none w-[120px] sm:w-[150px] md:w-[200px] snap-start cursor-pointer group" onclick="app.navigate('detail', '${drama.bookId}')">
+                        <div class="relative aspect-[2/3] rounded-lg overflow-hidden mb-2 md:mb-3 bg-darkCard neo-border border border-white/5 transition-all">
+                            <img src="${optImg}" alt="${drama.bookName}" onerror="ui.handleImgError(this)" 
+                                 class="w-full h-full object-cover transition duration-700 group-hover:scale-110 group-hover:opacity-60">
+                            
+                            <!-- Neo Overlay elements -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-2 md:p-3">
+                                <span class="text-[10px] md:text-xs text-neonCyan font-neo font-bold tracking-widest flex items-center gap-1 mb-1">
+                                    <i class="ph-bold ph-eye"></i> LIHAT
+                                </span>
+                            </div>
+                            
+                            ${drama.playCount ? `<div class="absolute top-1 right-1 md:top-2 md:right-2 glass-panel text-[9px] md:text-[10px] px-1.5 py-0.5 md:px-2 md:py-1 rounded-sm text-white flex items-center gap-1 font-neo border-l-2 border-neonCyan"><i class="ph-fill ph-eye text-neonCyan"></i> ${drama.playCount}</div>` : ''}
+                        </div>
+                        <h3 class="text-xs md:text-sm font-semibold line-clamp-2 text-gray-300 group-hover:text-neonCyan group-hover:text-glow-cyan transition">${drama.bookName}</h3>
+                    </div>
+                `;
+            }
+        };
+
+        /**
+         * 4. APP CORE & ROUTING
+         */
+        const app = {
+            init: async () => {
+                ui.initNavbar();
+                await app.renderHome(); // Render awal untuk mengambil data beranda
+                
+                // Event listener untuk mendeteksi tombol back/forward di browser
+                window.addEventListener('popstate', app.handleRoute);
+                await app.handleRoute(); // Panggil saat awal untuk membaca URL (misal user masuk lewat link spesifik)
+                
+                document.getElementById('searchInput').addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter') app.executeSearch();
+                });
+            },
+
+            // Fungsi baru untuk menangani perpindahan URL Domain
+            handleRoute: async () => {
+                const hash = window.location.hash;
+                
+                if (!hash || hash === '#beranda') await app.navigate('home', null, false);
+                else if (hash === '#Vip') await app.navigate('vip', null, false);
+                else if (hash === '#pencarian') await app.navigate('search', null, false);
+                else if (hash === '#tentang') await app.navigate('about', null, false);
+                else if (hash === '#kontak') await app.navigate('contact', null, false);
+                else if (hash.startsWith('#Detail_drama')) {
+                    const param = hash.split('?id=')[1];
+                    if (param) await app.navigate('detail', param, false);
+                    else await app.navigate('home', null, false);
+                }
+                else if (hash.startsWith('#Menonton_drama')) {
+                    const param = hash.split('?id=')[1];
+                    if (param) await app.navigate('player', param, false);
+                    else await app.navigate('home', null, false);
+                }
+            },
+
+            // Parameter `pushState` ditambahkan untuk mencegah duplikasi histori URL saat tekan Back
+            navigate: async (viewId, param = null, pushState = true) => {
+                document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                state.currentView = viewId;
+                ui.updateNavState(viewId);
+
+                // Update URL Domain / Hash tanpa mereload halaman
+                if (pushState) {
+                    let hash = '#beranda';
+                    if (viewId === 'vip') hash = '#Vip';
+                    else if (viewId === 'search') hash = '#pencarian';
+                    else if (viewId === 'detail') hash = `#Detail_drama?id=${param}`;
+                    else if (viewId === 'player') hash = `#Menonton_drama?id=${param}`;
+                    else if (viewId === 'about') hash = '#tentang';
+                    else if (viewId === 'contact') hash = '#kontak';
+                    
+                    window.history.pushState(null, '', hash);
+                }
+
+                document.getElementById(`view-${viewId}`).classList.remove('hidden');
+                
+                if (viewId === 'home') ui.initObserver();
+                else if (viewId === 'vip') await app.renderVip();
+                else if (viewId === 'search') await app.renderSearch();
+                else if (viewId === 'detail') await app.renderDetail(param);
+                else if (viewId === 'player') await app.renderPlayer(param);
+                else if (viewId === 'about' || viewId === 'contact') ui.initObserver();
+            },
+
+            /** --- HOME CONTROLLER --- */
+            renderHome: async () => {
+                ui.showLoader();
+                
+                const [random, trending, foryou, latest, dubindo] = await Promise.all([
+                    dataService.getRandom(), dataService.getTrending(), dataService.getForYou(), dataService.getLatest(), dataService.getDubIndo()
+                ]);
+
+                // Render Neo Hero
+                const heroData = (random && random.length > 0) ? random[0] : (trending && trending[0]);
+                if (heroData) {
+                    const heroImg = heroData.bookCover || heroData.coverWap || CONFIG.IMG_FALLBACK;
+                    document.getElementById('hero-banner').innerHTML = `
+                        <div class="absolute inset-0">
+                            <img src="${heroImg}" alt="Hero" onerror="ui.handleImgError(this)" class="w-full h-full object-cover object-top opacity-40">
+                        </div>
+                        <div class="absolute inset-0 bg-hero-gradient md:bg-hero-gradient-side mix-blend-multiply"></div>
+                        <div class="absolute inset-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-end md:justify-center pb-12 md:pb-0">
+                            <div class="max-w-2xl fade-up glass-panel p-5 md:p-8 rounded-2xl border-l-[3px] md:border-l-4 border-neonCyan shadow-[0_0_30px_rgba(0,240,255,0.1)]">
+                                ${heroData.tags ? `<div class="flex flex-wrap gap-1.5 md:gap-2 mb-3 md:mb-4">
+                                    ${heroData.tags.slice(0,3).map(tag => `<span class="px-1.5 md:px-2 py-0.5 md:py-1 bg-neonCyan/10 text-neonCyan border border-neonCyan/30 rounded text-[9px] md:text-[10px] font-neo font-bold tracking-widest uppercase">${tag}</span>`).join('')}
+                                </div>` : ''}
+                                <h1 class="text-xl sm:text-3xl md:text-5xl lg:text-6xl font-neo font-black mb-2 md:mb-4 leading-snug md:leading-tight text-glow-cyan uppercase">${heroData.bookName}</h1>
+                                <p class="text-[11px] md:text-sm text-gray-300 mb-6 md:mb-8 line-clamp-2 md:line-clamp-3 max-w-lg font-light">${heroData.introduction || ''}</p>
+                                <div class="flex gap-4">
+                                    <button onclick="app.navigate('detail', '${heroData.bookId}')" class="bg-neonCyan text-darkBg hover:bg-white font-neo font-bold py-2.5 md:py-3 px-6 md:px-8 rounded flex items-center gap-2 text-xs md:text-sm transition transform hover:scale-105 shadow-[0_0_15px_rgba(0,240,255,0.6)] uppercase tracking-wider">
+                                        <i class="ph-bold ph-play text-lg md:text-xl"></i> MULAI
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                const renderCarousel = (id, data) => {
+                    const container = document.getElementById(id);
+                    if (data && data.length > 0) container.innerHTML = data.map(item => ui.createCardHTML(item)).join('');
+                    else container.innerHTML = '<p class="text-neonPink font-neo text-xs md:text-sm">> ERROR: DATA_TIDAK_DITEMUKAN</p>';
+                };
+
+                renderCarousel('carousel-trending', trending);
+                renderCarousel('carousel-foryou', foryou);
+                renderCarousel('carousel-latest', latest);
+                renderCarousel('carousel-dubindo', dubindo);
+
+                ui.hideLoader();
+                ui.initObserver();
+            },
+
+            /** --- VIP CONTROLLER --- */
+            renderVip: async () => {
+                ui.showLoader();
+                const container = document.getElementById('vip-content');
+                
+                const vipData = await dataService.getVip();
+                
+                if (vipData && vipData.columnVoList && vipData.columnVoList.length > 0) {
+                    let htmlContent = '';
+                    vipData.columnVoList.forEach(column => {
+                        if (column.bookList && column.bookList.length > 0) {
+                            htmlContent += `
+                                <div class="fade-up">
+                                    <h2 class="text-base md:text-xl font-neo font-bold mb-4 flex items-center gap-2 text-white">
+                                        <i class="ph-fill ph-gem text-neonPink drop-shadow-[0_0_5px_rgba(255,0,60,0.8)]"></i> ${column.title.toUpperCase()}
+                                    </h2>
+                                    <div class="flex gap-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory pb-4">
+                                        ${column.bookList.map(item => ui.createCardHTML(item)).join('')}
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                    container.innerHTML = htmlContent;
+                } else {
+                    container.innerHTML = `<div class="text-center py-20 text-neonPink font-neo">> ERROR_404: DATA_VIP_TIDAK_TERSEDIA</div>`;
+                }
+
+                ui.hideLoader();
+                ui.initObserver();
+            },
+
+            /** --- SEARCH CONTROLLER --- */
+            renderSearch: async () => {
+                const tagsContainer = document.getElementById('popular-tags');
+                if (tagsContainer.innerHTML.trim() === '') {
+                    const pop = await dataService.getPopularSearch();
+                    if (pop && pop.length > 0) {
+                        tagsContainer.innerHTML = pop.slice(0, 10).map(item => `
+                            <button onclick="document.getElementById('searchInput').value='${item.bookName}'; app.executeSearch();" 
+                                    class="px-3 md:px-4 py-1.5 md:py-2 glass-panel hover:border-neonCyan hover:bg-neonCyan/10 rounded-sm text-[10px] md:text-xs font-neo text-gray-300 hover:text-neonCyan transition">
+                                [ ${item.bookName.toUpperCase()} ]
+                            </button>
+                        `).join('');
+                    }
+                }
+                ui.initObserver();
+            },
+
+            executeSearch: async () => {
+                const query = document.getElementById('searchInput').value.trim();
+                if (!query) return;
+
+                ui.showLoader();
+                document.getElementById('search-title').classList.remove('hidden');
+                const resultsContainer = document.getElementById('search-results');
+                resultsContainer.innerHTML = '';
+
+                const data = await dataService.searchDrama(query);
+                
+                if (data && data.length > 0) {
+                    resultsContainer.innerHTML = data.map(item => ui.createCardHTML(item)).join('');
+                } else {
+                    resultsContainer.innerHTML = `<div class="col-span-full text-center py-10 md:py-20 text-neonPink font-neo text-sm md:text-base">> Kueri "${query}" tidak ditemukan di dalam sistem.</div>`;
+                }
+                ui.hideLoader();
+                ui.initObserver();
+            },
+
+            /** --- DETAIL CONTROLLER --- */
+            renderDetail: async (bookId) => {
+                ui.showLoader();
+                state.currentDramaId = bookId;
+                const container = document.getElementById('detail-container');
+                container.innerHTML = '';
+
+                const detail = await dataService.getDetail(bookId);
+                
+                if (!detail) {
+                    container.innerHTML = `<div class="text-center pt-32 text-neonPink font-neo">> ERROR: DATA_RUSAK</div>`;
+                    ui.hideLoader();
+                    return;
+                }
+
+                const img = detail.coverWap || detail.cover || CONFIG.IMG_FALLBACK;
+
+                container.innerHTML = `
+                    <div class="relative w-full min-h-[70vh] md:h-[75vh] bg-darkBg border-b border-neonPurple/30">
+                        <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] z-0"></div>
+                        <div class="absolute inset-0">
+                            <img src="${img}" class="w-full h-full object-cover object-top opacity-30 blur-md">
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-darkBg/80 to-transparent"></div>
+                        
+                        <div class="absolute inset-0 pt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center md:items-end gap-6 md:gap-10 pb-10 z-10 overflow-y-auto hide-scrollbar">
+                            <div class="relative group fade-up shrink-0 mt-6 md:mt-0">
+                                <div class="absolute -inset-1 bg-gradient-to-r from-neonCyan to-neonPurple rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+                                <img src="${img}" class="relative w-32 sm:w-40 md:w-64 rounded-xl border border-white/10 shadow-2xl">
+                            </div>
+                            
+                            <div class="text-center md:text-left fade-up w-full flex-1 pb-4 md:pb-0" style="transition-delay: 0.1s">
+                                <h1 class="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-neo font-bold mb-3 md:mb-4 text-glow-cyan uppercase line-clamp-2 md:line-clamp-none">${detail.bookName}</h1>
+                                
+                                <div class="flex flex-wrap justify-center md:justify-start gap-1.5 md:gap-2 mb-4 md:mb-6">
+                                    <span class="px-2 py-1 glass-panel text-neonCyan border border-neonCyan/30 rounded-sm text-[9px] md:text-[10px] font-neo font-bold uppercase tracking-wider"><i class="ph-bold ph-monitor-play"></i> ${detail.chapterCount} EPISODE</span>
+                                    ${(detail.tags || []).map(t => `<span class="px-2 py-1 bg-white/5 rounded-sm border border-white/10 text-[9px] md:text-[10px] font-neo tracking-wider text-gray-300 uppercase">${t}</span>`).join('')}
+                                </div>
+                                
+                                <div class="glass-panel p-3 md:p-4 rounded-lg mb-6 md:mb-8 max-w-3xl border-l-2 border-neonPurple text-left">
+                                    <p class="text-xs md:text-base text-gray-300 leading-relaxed font-light line-clamp-4 md:line-clamp-none">${detail.introduction}</p>
+                                </div>
+                                
+                                <button onclick="app.navigate('player', '${bookId}')" class="w-full md:w-auto bg-transparent border-2 border-neonCyan text-neonCyan hover:bg-neonCyan hover:text-black font-neo font-bold py-2.5 md:py-3 px-6 md:px-10 rounded flex justify-center items-center gap-2 transition-all duration-300 shadow-[0_0_15px_rgba(0,240,255,0.2)] hover:shadow-[0_0_20px_rgba(0,240,255,0.8)] text-sm md:text-base uppercase tracking-widest">
+                                    <i class="ph-bold ph-play text-xl md:text-2xl"></i> PUTAR SEKARANG
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                ui.hideLoader();
+                ui.initObserver();
+            },
+
+            /** --- PLAYER CONTROLLER --- */
+            renderPlayer: async (bookId) => {
+                ui.showLoader();
+                const videoEl = document.getElementById('main-video-player');
+                const overlay = document.getElementById('player-overlay');
+                const statusTxt = document.getElementById('player-status');
+                const drawerList = document.getElementById('episode-list-drawer');
+                
+                videoEl.src = '';
+                overlay.classList.remove('hidden');
+                statusTxt.innerText = "MENGAMBIL_PROTOKOL...";
+                drawerList.innerHTML = '';
+
+                const eps = await dataService.getEpisodes(bookId);
+                
+                if (!eps || eps.length === 0) {
+                    statusTxt.innerText = "> ERROR: DATA_EPISODE_HILANG";
+                    statusTxt.classList.replace('text-neonCyan', 'text-neonPink');
+                    document.querySelector('#player-overlay .loader').classList.add('hidden');
+                    ui.hideLoader();
+                    return;
+                }
+
+                state.episodesCache = eps;
+                document.getElementById('player-title').innerText = "SISTEM PEMUTAR"; 
+
+                drawerList.innerHTML = eps.map((ep, idx) => `
+                    <button id="btn-ep-${idx}" onclick="app.playEpisode(${idx})" class="ep-btn p-2.5 md:p-3 glass-panel hover:border-neonCyan hover:shadow-[0_0_10px_rgba(0,240,255,0.3)] rounded-sm text-xs md:text-sm font-neo font-bold transition flex justify-between items-center gap-2 border-white/5 w-full text-left">
+                        <span class="truncate">${ep.chapterName}</span>
+                        ${ep.isCharge ? '<i class="ph-fill ph-lock-key-open text-[10px] text-neonCyan drop-shadow-[0_0_5px_rgba(0,240,255,0.8)]"></i>' : ''}
+                    </button>
+                `).join('');
+
+                ui.hideLoader();
+                app.playEpisode(0); // Auto play ep 1
+            },
+
+            playEpisode: async (index) => {
+                const ep = state.episodesCache[index];
+                if (!ep) return;
+
+                const videoEl = document.getElementById('main-video-player');
+                const overlay = document.getElementById('player-overlay');
+                const statusTxt = document.getElementById('player-status');
+                const loader = document.querySelector('#player-overlay .loader');
+                
+                // Update UI Buttons
+                document.querySelectorAll('.ep-btn').forEach(b => {
+                    b.classList.remove('border-neonCyan', 'bg-neonCyan/20', 'text-neonCyan', 'shadow-[0_0_10px_rgba(0,240,255,0.5)]');
+                });
+                const activeBtn = document.getElementById(`btn-ep-${index}`);
+                if(activeBtn) {
+                    activeBtn.classList.add('border-neonCyan', 'bg-neonCyan/20', 'text-neonCyan', 'shadow-[0_0_10px_rgba(0,240,255,0.5)]');
+                }
+
+                document.getElementById('player-ep-title').innerHTML = `<i class="ph-fill ph-monitor-play"></i> ${ep.chapterName}`;
+                
+                // Auto-close drawer saat episode dipilih agar UX lebih baik di layar kecil
+                if (window.innerWidth < 1024) {
+                    const drawer = document.getElementById('episode-drawer');
+                    if (drawer && !drawer.classList.contains('translate-x-full')) {
+                        ui.toggleEpisodeDrawer();
+                    }
+                }
+
+                // BYPASS: Semua perlindungan VIP dihapus sehingga semua episode yang terkunci bisa diputar tanpa dibatasi.
+
+                overlay.classList.remove('hidden');
+                loader.classList.remove('hidden');
+                statusTxt.classList.replace('text-neonPink', 'text-neonCyan');
+                statusTxt.innerText = "MEMPROSES_VIDEO...";
+                videoEl.pause();
+
+                try {
+                    let encUrl = '';
+                    if (ep.cdnList && ep.cdnList.length > 0 && ep.cdnList[0].videoPathList && ep.cdnList[0].videoPathList.length > 0) {
+                        encUrl = ep.cdnList[0].videoPathList[0].videoPath;
+                    }
+
+                    if (!encUrl) throw new Error("LINK_VIDEO_TIDAK_DITEMUKAN");
+
+                    const decryptData = await dataService.decryptVideo(encUrl);
+                    
+                    if (decryptData && decryptData.success && decryptData.streamUrl) {
+                        videoEl.src = decryptData.streamUrl;
+                        overlay.classList.add('hidden');
+                        videoEl.play();
+                    } else {
+                        throw new Error("GAGAL_MEMPROSES_VIDEO");
+                    }
+
+                } catch (error) {
+                    console.error("Kesalahan Pemutar:", error);
+                    loader.classList.add('hidden');
+                    statusTxt.classList.replace('text-neonCyan', 'text-neonPink');
+                    statusTxt.innerHTML = `<span class="text-neonPink">> KESALAHAN_FATAL: ${error.message}</span>`;
+                }
+            }
+        };
+
+        /**
+         * 5. GEMINI AI CHAT LOGIC
+         */
+        const geminiBot = {
+            isOpen: false,
+            
+            toggle: () => {
+                const win = document.getElementById('gemini-chat-window');
+                geminiBot.isOpen = !geminiBot.isOpen;
+                if(geminiBot.isOpen) {
+                    win.classList.remove('hidden');
+                    win.classList.add('flex');
+                    document.getElementById('gemini-input').focus();
+                } else {
+                    win.classList.add('hidden');
+                    win.classList.remove('flex');
+                }
+            },
+
+            sendMessage: async () => {
+                const input = document.getElementById('gemini-input');
+                const message = input.value.trim();
+                if(!message) return;
+
+                input.value = '';
+                geminiBot.appendMessage(message, 'user');
+                
+                const typingId = geminiBot.appendMessage('> MEMPROSES...', 'bot', true);
+
+                try {
+                    // Menyematkan prompt persona Neo AI by Ranzz
+                    const systemPrompt = `Kamu adalah Neo AI, asisten sistem canggih yang dikembangkan oleh Ranzz. Jawablah pertanyaan berikut dengan gaya bahasa yang profesional, futuristik, namun tetap ramah: ${message}`;
+
+                    const response = await fetch('https://apii.ranzzajaah.my.id/api/ai/gemini-v2', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ "prompt": systemPrompt })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    // Remove typing indicator
+                    const typingEl = document.getElementById(typingId);
+                    if (typingEl) typingEl.remove();
+                    
+                    // Ekstrak pesan sesuai format API JSON yang diberikan (data.result.answer)
+                    let botReply = "Sistem gagal memberikan respon.";
+                    if (data && data.success && data.result && data.result.answer) {
+                        botReply = data.result.answer;
+                    } else if (data && data.message) {
+                        botReply = data.message;
+                    } else {
+                        botReply = "> ERROR: FORMAT_RESPON_TIDAK_DIKENAL";
+                    }
+
+                    geminiBot.appendMessage(botReply, 'bot');
+                } catch (error) {
+                    console.error("Gemini AI Error:", error);
+                    const typingEl = document.getElementById(typingId);
+                    if (typingEl) typingEl.remove();
+                    geminiBot.appendMessage('> ERROR: GAGAL_TERHUBUNG_KE_SISTEM_AI', 'bot');
+                }
+            },
+
+            appendMessage: (text, sender, isTyping = false) => {
+                const history = document.getElementById('gemini-chat-history');
+                const msgDiv = document.createElement('div');
+                const id = 'msg-' + Date.now();
+                msgDiv.id = id;
+                
+                if (sender === 'user') {
+                    msgDiv.className = 'text-white bg-neonPurple/40 p-3 rounded-lg border border-neonPurple self-end max-w-[85%] break-words shadow-[0_0_10px_rgba(161,0,255,0.2)]';
+                } else {
+                    msgDiv.className = `text-gray-300 bg-darkCard p-3 rounded-lg border border-white/10 self-start max-w-[85%] break-words shadow-sm ${isTyping ? 'animate-pulse text-neonCyan font-neo tracking-wider' : ''}`;
+                }
+                
+                msgDiv.innerText = text;
+                history.appendChild(msgDiv);
+                history.scrollTop = history.scrollHeight;
+                
+                return id;
+            }
+        };
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', app.init);
+
+    </script>
+</body>
+</html>
